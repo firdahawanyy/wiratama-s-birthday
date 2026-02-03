@@ -5,18 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Happy Birthday Sayang!</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Sacramento&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
     <style>
         :root {
             --bg-dark: #0f172a;
             --bg-secondary: #1e293b;
-            --accent: #60a5fa; /* Biru terang */
-            --accent-gold: #ffd700;
-            --text-main: #f8fafc;
-            --text-sec: #94a3b8;
-            --vintage-paper: #f4e4bc; /* Warna kertas tua */
-            --vintage-border: #5c4a3d; /* Warna coklat tua */
+            --accent: #60a5fa; 
+            --vintage-paper: #f4e4bc; 
+            --vintage-border: #5c4a3d;
         }
 
         * { box-sizing: border-box; scroll-behavior: smooth; }
@@ -25,7 +21,7 @@
             margin: 0;
             font-family: 'Poppins', sans-serif;
             background-color: var(--bg-dark);
-            color: var(--text-main);
+            color: #f8fafc;
             overflow-x: hidden;
         }
 
@@ -34,132 +30,223 @@
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
             background: var(--bg-dark);
-            z-index: 9999;
+            z-index: 1000; /* Paling atas */
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            transition: opacity 0.8s;
+            transition: opacity 0.5s;
         }
-        .login-box {
-            text-align: center;
-            padding: 20px;
-        }
+        
+        .login-box { text-align: center; padding: 20px; }
         .login-input {
-            padding: 10px;
-            border-radius: 8px;
-            border: 1px solid var(--accent);
-            background: transparent;
-            color: white;
-            margin-top: 10px;
-            text-align: center;
-            font-size: 1.2rem;
+            padding: 10px; border-radius: 8px; border: 1px solid var(--accent);
+            background: transparent; color: white; margin-top: 10px;
+            text-align: center; font-size: 1.2rem;
         }
         .login-btn {
-            margin-top: 15px;
-            padding: 10px 25px;
-            background: var(--accent);
-            border: none;
-            border-radius: 20px;
-            color: var(--bg-dark);
-            font-weight: bold;
-            cursor: pointer;
+            margin-top: 15px; padding: 10px 25px; background: var(--accent);
+            border: none; border-radius: 20px; color: var(--bg-dark);
+            font-weight: bold; cursor: pointer;
         }
 
-        /* --- 📜 VINTAGE SCROLL ANIMATION --- */
+        /* --- 📜 VINTAGE SURAT (Dibuat Lebih Simpel biar Gak Error) --- */
         #scroll-overlay {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(15, 23, 42, 0.95); /* Gelap transparan */
-            z-index: 9990; /* Di bawah password, di atas konten utama */
-            display: flex;
+            background: rgba(0,0,0,0.9);
+            z-index: 900; 
+            display: none; /* Disembunyikan dulu */
             justify-content: center;
             align-items: center;
             opacity: 0;
-            pointer-events: none; /* Biar bisa tembus klik kalau belum aktif */
-            transition: opacity 0.5s;
+            transition: opacity 1s;
         }
 
-        /* Wadah Gulungan Kertas */
         .vintage-scroll {
             position: relative;
-            width: 80%;
-            max-width: 600px;
+            width: 90%; max-width: 500px;
             background-color: var(--vintage-paper);
-            /* Texture kertas tua (dari internet biar ringan) */
-            background-image: url('https://www.transparenttextures.com/patterns/aged-paper.png');
-            border-left: 5px solid var(--vintage-border);
-            border-right: 5px solid var(--vintage-border);
-            box-shadow: 0 20px 50px rgba(0,0,0,0.8);
-            overflow: hidden;
-            /* Keadaan awal: tertutup (tinggi 0) */
-            height: 0; 
-            transform: scaleX(0.2); /* Awalnya kurus */
-            opacity: 0;
-            transition: all 2s cubic-bezier(0.25, 1, 0.5, 1); /* Animasi halus */
-        }
-
-        /* Saat kelas 'opened' ditambahkan lewat JS */
-        .vintage-scroll.opened {
-            height: 70vh; /* Terbuka tinggi */
-            transform: scaleX(1); /* Melebar normal */
-            opacity: 1;
-        }
-
-        /* Isi Surat */
-        .scroll-content {
-            padding: 40px;
+            /* Motif kertas pakai CSS aja biar gak gagal loading */
+            background-image: radial-gradient(#dccba8 1px, transparent 1px);
+            background-size: 10px 10px;
+            border: 4px solid var(--vintage-border);
+            padding: 40px 20px;
             text-align: center;
-            color: #3d2b1f; /* Warna teks coklat tua */
-            opacity: 0; /* Teks muncul belakangan */
-            transition: opacity 1s delay 1.5s;
-        }
-        .vintage-scroll.opened .scroll-content {
-            opacity: 1;
-        }
-        .scroll-content h2 {
-            font-family: 'Sacramento', cursive;
-            font-size: 3rem;
-            color: var(--vintage-border);
-            border: none;
-        }
-        .scroll-content p {
-            font-family: 'Courier New', monospace; /* Font ala mesin tik */
-            font-weight: bold;
-            font-size: 1.1rem;
-            line-height: 1.8;
             color: #3d2b1f;
+            box-shadow: 0 0 50px rgba(255, 255, 255, 0.1);
+            transform: scale(0.1);
+            transition: transform 1s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
-        /* Hiasan Gulungan Atas Bawah */
-        .scroll-roller {
-            position: absolute; left: 0; width: 100%; height: 30px;
-            background: var(--vintage-border);
-            border-radius: 20px;
-            box-shadow: inset 0 5px 10px rgba(0,0,0,0.5);
+        .vintage-scroll.open { transform: scale(1); }
+
+        .vintage-scroll h2 {
+            font-family: 'Sacramento', cursive; font-size: 2.5rem; margin: 0; color: var(--vintage-border);
         }
-        .roller-top { top: 0; }
-        .roller-bottom { bottom: 0; }
         
-        /* Tombol tutup surat */
-        .close-scroll-btn {
-            margin-top: 30px; padding: 10px 30px;
+        #typing-text {
+            font-family: 'Courier New', monospace; font-weight: bold; font-size: 1rem; margin: 20px 0; min-height: 100px;
+        }
+
+        .close-btn {
             background: var(--vintage-border); color: var(--vintage-paper);
-            border: none; border-radius: 50px; cursor: pointer; font-weight: bold;
+            border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;
         }
 
-        /* --- ✨ UMUM --- */
+        /* --- ✨ ISI WEBSITE UTAMA --- */
+        #main-content { display: none; opacity: 0; transition: opacity 1.5s; }
+
         section {
-            min-height: 100vh;
-            padding: 50px 20px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            position: relative;
+            min-height: 100vh; padding: 50px 20px;
+            display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;
         }
         
-        h1, h2 { font-family: 'Sacramento', cursive; color: var(--accent); }
-        h1 { font-size: 3.5rem; margin-bottom: 10px; }
-        h2 { font-size: 2.5rem; margin-bottom: 30px; border-bottom: 2px solid var(--accent); padding-bottom: 10px; display
+        .hero {
+            /* Pastikan nama file foto.jpg benar */
+            background: linear-gradient(rgba(15, 23, 42, 0.8), rgba(15, 23, 42, 0.8)), url('foto.jpg');
+            background-size: cover; background-position: center;
+        }
+
+        h1 { font-family: 'Sacramento', cursive; font-size: 3rem; color: var(--accent); margin-bottom: 10px; }
+        p { color: #cbd5e1; max-width: 600px; line-height: 1.6; }
+
+        .btn {
+            display: inline-block; margin-top: 20px; padding: 12px 30px;
+            border: 1px solid var(--accent); color: var(--accent); border-radius: 30px;
+            text-decoration: none; transition: 0.3s;
+        }
+        .btn:hover { background: var(--accent); color: #0f172a; }
+
+        /* Gallery & Items */
+        .gallery { display: flex; gap: 15px; flex-wrap: wrap; justify-content: center; margin-top: 30px; }
+        .polaroid { background: white; padding: 10px 10px 40px 10px; transform: rotate(-3deg); width: 150px; }
+        .polaroid img { width: 100%; }
+        .polaroid:nth-child(even) { transform: rotate(3deg); }
+
+        .gift-box { font-size: 4rem; cursor: pointer; animation: bounce 2s infinite; margin-top: 20px; }
+        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
+
+        /* Responsive */
+        @media (max-width: 600px) { h1 { font-size: 2.5rem; } }
+    </style>
+</head>
+<body>
+
+    <div id="login-overlay">
+        <h1 style="font-size: 2rem;">🔒 Locked</h1>
+        <p>Masukkan Password: (Default: 2024)</p>
+        <div class="login-box">
+            <input type="password" id="passInput" class="login-input" placeholder="****">
+            <br>
+            <button class="login-btn" onclick="checkPass()">Buka</button>
+            <p id="errorMsg" style="color: red; display: none; margin-top: 10px; font-size: 0.9rem;">Salah woi! Coba lagi.</p>
+        </div>
+    </div>
+
+    <div id="scroll-overlay">
+        <div class="vintage-scroll" id="paper">
+            <h2>My Dearest...</h2>
+            <div id="typing-text"></div>
+            <button class="close-btn" onclick="masukWeb()">Lanjut ➡️</button>
+        </div>
+    </div>
+
+    <audio id="lagu" loop>
+        <source src="https://assets.mixkit.co/music/preview/mixkit-piano-reflection-593.mp3" type="audio/mpeg">
+    </audio>
+
+    <div id="main-content">
+        <section class="hero">
+            <h1>Happy Birthday!</h1>
+            <p>Selamat datang di website spesial buat kamu.</p>
+            <a href="#kenangan" class="btn">Lihat ke Bawah ⬇️</a>
+        </section>
+
+        <section id="kenangan">
+            <h1 style="font-size: 2rem;">Kenangan Kita 📸</h1>
+            <div class="gallery">
+                <div class="polaroid"><img src="foto.jpg" alt="Foto"></div>
+                </div>
+            <p style="margin-top: 20px;">Dan masih banyak lagi...</p>
+        </section>
+
+        <section>
+            <h1 style="font-size: 2rem;">Kado Virtual 🎁</h1>
+            <div class="gift-box" onclick="bukaKado()">🎁</div>
+        </section>
+
+        <footer style="padding: 30px; text-align: center; font-size: 0.8rem; opacity: 0.5;">
+            Made with ❤️ for You
+        </footer>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+    <script>
+        // --- 🔑 PASSWORD ---
+        const PASS = "2024"; 
+        
+        // --- 📝 ISI SURAT ---
+        const surat = "Hai sayang... Selamat ulang tahun! 🎉\n\nTerima kasih sudah jadi orang paling sabar. Semoga tahun ini semua impianmu tercapai. \n\nI Love You! ❤️";
+
+        // --- VARIABEL ---
+        const loginScreen = document.getElementById('login-overlay');
+        const scrollScreen = document.getElementById('scroll-overlay');
+        const paper = document.getElementById('paper');
+        const mainContent = document.getElementById('main-content');
+        const lagu = document.getElementById('lagu');
+        const typingElement = document.getElementById('typing-text');
+
+        // FUNGSI CEK PASSWORD
+        function checkPass() {
+            const input = document.getElementById('passInput').value;
+            if (input === PASS) {
+                // Password Benar
+                lagu.play().catch(e => console.log("Audio perlu interaksi")); // Putar lagu
+                loginScreen.style.opacity = 0;
+                
+                setTimeout(() => {
+                    loginScreen.style.display = 'none';
+                    // Munculkan Surat
+                    scrollScreen.style.display = 'flex'; 
+                    setTimeout(() => {
+                        scrollScreen.style.opacity = 1;
+                        paper.classList.add('open');
+                        ngetik(); // Mulai ngetik
+                    }, 100);
+                }, 500);
+            } else {
+                document.getElementById('errorMsg').style.display = 'block';
+            }
+        }
+
+        // FUNGSI NGETIK SURAT
+        let i = 0;
+        function ngetik() {
+            if (i < surat.length) {
+                typingElement.innerHTML += surat.charAt(i) === '\n' ? '<br>' : surat.charAt(i);
+                i++;
+                setTimeout(ngetik, 50);
+            }
+        }
+
+        // FUNGSI MASUK WEB UTAMA
+        function masukWeb() {
+            scrollScreen.style.opacity = 0;
+            setTimeout(() => {
+                scrollScreen.style.display = 'none';
+                mainContent.style.display = 'block';
+                setTimeout(() => {
+                    mainContent.style.opacity = 1;
+                }, 100);
+            }, 500);
+        }
+
+        // FUNGSI BUKA KADO
+        function bukaKado() {
+            confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
+            alert("Selamat Ulang Tahun! 🥳 Traktiran ditunggu ya! wkwk");
+        }
+    </script>
+</body>
+</html>
