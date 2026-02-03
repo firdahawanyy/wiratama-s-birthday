@@ -108,7 +108,7 @@
         }
         .hero-btn:hover { background: white; color: black; border-color: white; }
 
-        /* TIMELINE (ZIGZAG RESTORED) */
+        /* TIMELINE (ZIGZAG) */
         .timeline { position: relative; max-width: 900px; margin: 0 auto; }
         .timeline::after {
             content: ''; position: absolute; width: 1px; background-color: #333;
@@ -161,23 +161,35 @@
         .why-item:hover .why-img-frame { border-color: white; transform: scale(1.1); }
         .why-item:hover img { filter: grayscale(0%); }
 
-        /* MUSIC SECTION (RESTORED) */
+        /* MUSIC SECTION */
         .music-layout {
             display: flex; flex-wrap: wrap; gap: 50px; align-items: center; justify-content: center; width: 100%; max-width: 900px;
         }
         .spotify-box { flex: 1; min-width: 300px; }
         
-        /* INSIDE JOKES */
-        .jokes-section { overflow: hidden; cursor: crosshair; }
-        .jokes-container { position: relative; height: 500px; width: 100%; max-width: 900px; }
-        .bubble {
-            position: absolute; color: rgba(255,255,255,0.8);
-            padding: 10px 20px; border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 50px; font-size: 0.85rem; letter-spacing: 1px;
-            backdrop-filter: blur(2px); transition: transform 0.2s ease-out;
-            animation: floatBubble 6s ease-in-out infinite;
+        /* --- NEW: INSIDE JOKES (3D CLASSY BUBBLES + CURSOR FOLLOW) --- */
+        .jokes-section { overflow: hidden; position: relative; }
+        .jokes-container { position: relative; height: 600px; width: 100%; max-width: 1000px; }
+        
+        .bubble-3d {
+            position: absolute;
+            width: 120px; height: 120px;
+            border-radius: 50%;
+            /* Efek Kaca Gelap 3D */
+            background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.15), rgba(0,0,0,0.8));
+            box-shadow: 
+                inset 0 0 20px rgba(255,255,255,0.05), /* Inner glow halus */
+                0 10px 20px rgba(0,0,0,0.3), /* Shadow bawah */
+                0 0 5px rgba(255,255,255,0.1); /* Rim light luar */
+            backdrop-filter: blur(4px); /* Efek kaca buram */
+            border: 1px solid rgba(255,255,255,0.1);
+            color: rgba(255,255,255,0.8);
+            
+            display: flex; justify-content: center; align-items: center; text-align: center;
+            font-size: 0.8rem; letter-spacing: 1px; padding: 10px;
+            will-change: transform; /* Optimasi performa gerak */
         }
-        @keyframes floatBubble { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
+
         .spark {
             position: absolute; width: 2px; height: 2px; background: white; border-radius: 50%;
             pointer-events: none; animation: sparkFade 1.5s linear forwards;
@@ -195,6 +207,7 @@
             .timeline-container { width: 100%; padding-left: 70px; padding-right: 25px; }
             .left, .right { left: 0; text-align: left; }
             .music-layout { flex-direction: column; }
+            .bubble-3d { width: 90px; height: 90px; font-size: 0.7rem; } /* Bubble lebih kecil di HP */
         }
     </style>
 </head>
@@ -233,7 +246,7 @@
     <div id="timeline-modal">
         <img id="modal-img" src="" alt="Moment">
         <p id="modal-desc" style="margin-top: 20px; font-family: 'Playfair Display'; font-style: italic; color: white;"></p>
-        <div onclick="closeModal()" style="margin-top: 30px; cursor: pointer; color: #666; font-size: 2rem;">&times;</div>
+        <div onclick="closeModal()" style="margin-top: 30px; cursor: pointer; color: #666; font-size: 2rem;">×</div>
     </div>
 
     <div id="main-content">
@@ -305,7 +318,8 @@
 
         <section class="jokes-section" id="jokes-section">
             <h2>Inside Jokes</h2>
-            <div class="jokes-container" id="jokes-area"></div>
+            <div class="jokes-container" id="jokes-area">
+                </div>
         </section>
 
         <section>
@@ -317,7 +331,7 @@
         </section>
 
         <footer>
-            <p>2026 BIRTHDAY EDITION &bull; CURATED WITH LOVE &bull; BY [NAMA KAMU]</p>
+            <p>2026 BIRTHDAY EDITION • CURATED WITH LOVE • BY [NAMA KAMU]</p>
         </footer>
 
     </div>
@@ -340,6 +354,17 @@
         const sfxTyping = document.getElementById('sfx-typing');
         const laguBg = document.getElementById('lagu-bg');
 
+        // Variables for Cursor Follow
+        let mouseX = window.innerWidth / 2;
+        let mouseY = window.innerHeight / 2;
+        let bubbleElements = [];
+
+        // Track Mouse Position
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+        });
+
         // 1. CHECK PASS & ECHO EFFECT
         function checkPass() {
             const input = document.getElementById('passInput').value;
@@ -347,7 +372,6 @@
                 loginOverlay.style.opacity = '0';
                 setTimeout(() => { loginOverlay.style.display = 'none'; }, 1500);
 
-                // Echo Effect
                 echoContainer.style.display = 'flex';
                 document.getElementById('echo1').classList.add('echo-active');
                 setTimeout(() => document.getElementById('echo2').classList.add('echo-active'), 200);
@@ -397,7 +421,7 @@
                 scrollOverlay.style.display = 'none';
                 mainContent.style.display = 'block';
                 setTimeout(() => { mainContent.style.opacity = 1; }, 100);
-                renderJokes();
+                initJokes(); // Mulai inisialisasi jokes
             }, 1500);
         }
 
@@ -415,28 +439,35 @@
             setTimeout(() => modal.style.display = 'none', 1500);
         }
 
-        // 6. INSIDE JOKES & SPARKS
-        function renderJokes() {
+        // 6. --- NEW: INSIDE JOKES LOGIC (3D & CURSOR FOLLOW) ---
+        function initJokes() {
             const container = document.getElementById('jokes-area');
             const section = document.getElementById('jokes-section');
+            const rect = container.getBoundingClientRect();
             
+            // Create Bubbles
             jokes.forEach((joke, index) => {
                 const el = document.createElement('div');
-                el.className = 'bubble';
+                el.className = 'bubble-3d';
                 el.innerText = joke;
-                el.style.left = Math.random() * 80 + '%';
-                el.style.top = Math.random() * 80 + '%';
-                el.style.animationDelay = (Math.random() * 5) + 's';
-                
-                section.addEventListener('mousemove', (e) => {
-                    const x = (window.innerWidth - e.pageX * 2) / 100;
-                    const y = (window.innerHeight - e.pageY * 2) / 100;
-                    const speed = index % 2 === 0 ? 2 : -2; 
-                    el.style.transform = `translateX(${x * speed}px) translateY(${y * speed}px)`;
-                });
                 container.appendChild(el);
+
+                // Store bubble data for animation
+                bubbleElements.push({
+                    el: el,
+                    x: Math.random() * rect.width,
+                    y: Math.random() * rect.height,
+                    // Random offsets & speeds for organic movement
+                    offsetX: (Math.random() - 0.5) * 200,
+                    offsetY: (Math.random() - 0.5) * 200,
+                    speed: 0.02 + Math.random() * 0.03
+                });
             });
 
+            // Start Animation Loop
+            animateBubbles();
+
+            // Create Sparks
             setInterval(() => {
                 const spark = document.createElement('div');
                 spark.className = 'spark';
@@ -446,6 +477,28 @@
                 setTimeout(() => spark.remove(), 1500);
             }, 500);
         }
+
+        function animateBubbles() {
+            const container = document.getElementById('jokes-area');
+            if (!container) return; // Safety check
+            const rect = container.getBoundingClientRect();
+
+            bubbleElements.forEach(bubble => {
+                // Calculate target based on mouse position relative to container center
+                const targetX = (mouseX - rect.left) + bubble.offsetX;
+                const targetY = (mouseY - rect.top) + bubble.offsetY;
+
+                // Smooth Movement (Linear Interpolation / Lerp)
+                bubble.x += (targetX - bubble.x) * bubble.speed;
+                bubble.y += (targetY - bubble.y) * bubble.speed;
+
+                // Apply position (centering the bubble)
+                bubble.el.style.transform = `translate(${bubble.x - 50}px, ${bubble.y - 50}px)`;
+            });
+
+            requestAnimationFrame(animateBubbles);
+        }
+
 
         // 7. GIFT
         function bukaKado() {
