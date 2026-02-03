@@ -3,390 +3,412 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Special Day for You</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&family=Sacramento&display=swap" rel="stylesheet">
+    <title>Happy Birthday Sayang!</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Sacramento&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
     <style>
-        /* --- TEMA WARNA (DARK ELEGANT) --- */
         :root {
             --bg-dark: #0f172a;
-            --card-bg: rgba(15, 23, 42, 0.85);
-            --accent: #60a5fa; /* Biru lebih soft */
-            --accent-dark: #1e40af; /* Biru tua banget */
+            --bg-secondary: #1e293b;
+            --accent: #60a5fa; /* Biru terang */
+            --accent-gold: #ffd700;
             --text-main: #f8fafc;
             --text-sec: #94a3b8;
         }
 
+        * { box-sizing: border-box; scroll-behavior: smooth; }
+
         body {
-            background-color: var(--bg-dark);
-            background-image: 
-                radial-gradient(at 0% 0%, hsla(253,16%,7%,1) 0, transparent 50%), 
-                radial-gradient(at 50% 0%, hsla(225,39%,30%,1) 0, transparent 50%), 
-                radial-gradient(at 100% 0%, hsla(339,49%,30%,1) 0, transparent 50%);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
             margin: 0;
             font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-dark);
             color: var(--text-main);
-            overflow: hidden;
+            overflow-x: hidden;
         }
 
-        /* Bintang-bintang background */
-        .stars {
+        /* --- 🔒 LAYAR PASSWORD --- */
+        #login-overlay {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            z-index: -1;
-            pointer-events: none;
+            background: var(--bg-dark);
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 0.5s;
         }
-        .star {
-            position: absolute;
-            width: 2px; height: 2px;
-            background: white;
-            border-radius: 50%;
-            animation: twinkle var(--duration) ease-in-out infinite;
-            opacity: var(--opacity);
+        .login-box {
+            text-align: center;
+            padding: 20px;
         }
-        @keyframes twinkle {
-            0%, 100% { opacity: 0.2; transform: scale(1); }
-            50% { opacity: 1; transform: scale(1.5); }
+        .login-input {
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid var(--accent);
+            background: transparent;
+            color: white;
+            margin-top: 10px;
+            text-align: center;
+            font-size: 1.2rem;
+        }
+        .login-btn {
+            margin-top: 15px;
+            padding: 10px 25px;
+            background: var(--accent);
+            border: none;
+            border-radius: 20px;
+            color: var(--bg-dark);
+            font-weight: bold;
+            cursor: pointer;
         }
 
-        .container {
-            width: 90%;
-            max-width: 400px;
+        /* --- ✨ UMUM --- */
+        section {
+            min-height: 100vh;
+            padding: 50px 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: relative;
+        }
+        
+        h1, h2 { font-family: 'Sacramento', cursive; color: var(--accent); }
+        h1 { font-size: 3.5rem; margin-bottom: 10px; }
+        h2 { font-size: 2.5rem; margin-bottom: 30px; border-bottom: 2px solid var(--accent); padding-bottom: 10px; display: inline-block; }
+        p { line-height: 1.8; color: #e2e8f0; max-width: 600px; margin: 0 auto 20px; }
+
+        /* Animasi Scroll (Fade In) */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 1s ease;
+        }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
+        /* --- 1. LANDING PAGE --- */
+        .hero {
+            background: linear-gradient(rgba(15, 23, 42, 0.7), rgba(15, 23, 42, 0.7)), url('foto.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+        .hero-btn {
+            margin-top: 20px;
+            padding: 15px 40px;
+            background: transparent;
+            border: 2px solid var(--accent);
+            color: var(--accent);
+            border-radius: 50px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: 0.3s;
+            text-decoration: none;
+        }
+        .hero-btn:hover { background: var(--accent); color: var(--bg-dark); }
+
+        /* --- 2. SURAT CINTA --- */
+        .typewriter-box {
+            background: var(--bg-secondary);
+            padding: 30px;
+            border-radius: 15px;
+            border: 1px solid rgba(255,255,255,0.1);
+            max-width: 600px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        /* --- 3. TIMELINE --- */
+        .timeline {
+            position: relative;
+            max-width: 600px;
+            width: 100%;
+        }
+        .timeline::after {
+            content: '';
+            position: absolute;
+            width: 4px;
+            background-color: var(--accent);
+            top: 0; bottom: 0; left: 50%;
+            margin-left: -2px;
+            border-radius: 2px;
+        }
+        .container-tl {
+            padding: 10px 40px;
+            position: relative;
+            background-color: inherit;
+            width: 50%;
+        }
+        .left { left: 0; text-align: right; }
+        .right { left: 50%; text-align: left; }
+        .content-tl {
+            padding: 20px;
+            background-color: var(--bg-secondary);
+            border-radius: 10px;
+            border: 1px solid var(--accent);
             position: relative;
             z-index: 10;
         }
 
-        .card {
-            background: var(--card-bg);
-            padding: 30px;
-            border-radius: 24px;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-            border: 1px solid rgba(255,255,255,0.08);
-            backdrop-filter: blur(12px);
-            text-align: center;
-            transition: all 0.5s ease;
-        }
-
-        .photo-wrapper {
-            position: relative;
-            width: 140px;
-            height: 140px;
-            margin: 0 auto 20px;
-        }
-
-        .photo-container {
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            overflow: hidden;
-            border: 3px solid var(--accent);
-            box-shadow: 0 0 30px rgba(96, 165, 250, 0.3);
-            position: relative;
-            z-index: 2;
-        }
-        .photo-container img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            filter: brightness(0.9);
-        }
-
-        /* Lingkaran animasi di belakang foto */
-        .pulse-ring {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            border-radius: 50%;
-            border: 2px solid var(--accent);
-            animation: pulse-animation 3s infinite;
-            z-index: 1;
-        }
-        @keyframes pulse-animation {
-            0% { transform: scale(1); opacity: 0.8; }
-            100% { transform: scale(1.5); opacity: 0; }
-        }
-
-        h1 {
-            font-family: 'Sacramento', cursive;
-            font-size: 2.2rem;
-            background: linear-gradient(to right, #60a5fa, #c084fc);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin: 5px 0;
-        }
-
-        .content-area {
-            min-height: 140px; /* Lebih tinggi biar muat teks panjang */
+        /* --- 4. GALERI POLAROID --- */
+        .gallery-grid {
             display: flex;
-            align-items: center;
+            flex-wrap: wrap;
             justify-content: center;
-            flex-direction: column;
-            margin: 15px 0;
+            gap: 20px;
         }
-
-        p {
-            font-size: 0.9rem;
-            line-height: 1.7;
-            color: #e2e8f0;
-            margin: 0;
-            opacity: 0;
-            animation: fadeIn 1s forwards;
+        .polaroid {
+            background: white;
+            padding: 10px 10px 40px 10px;
+            color: #333;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            transform: rotate(-3deg);
+            transition: 0.3s;
+            width: 200px;
         }
+        .polaroid:nth-child(even) { transform: rotate(3deg); }
+        .polaroid:hover { transform: scale(1.1) rotate(0); z-index: 10; }
+        .polaroid img { width: 100%; height: auto; border: 1px solid #ddd; }
+        .caption { font-family: 'Sacramento', cursive; font-size: 1.5rem; margin-top: 10px; color: #333; }
 
-        @keyframes fadeIn {
-            to { opacity: 1; }
-        }
-
-        /* Navigasi */
-        .nav-buttons {
-            display: flex;
-            justify-content: space-between;
-            gap: 12px;
-            margin-top: 25px;
-        }
-
-        .btn {
-            flex: 1;
-            padding: 14px;
-            border: none;
+        /* --- 5. PLAYLIST SPOTIFY --- */
+        .spotify-wrapper {
+            width: 100%;
+            max-width: 400px;
             border-radius: 12px;
-            cursor: pointer;
-            font-family: 'Poppins', sans-serif;
-            font-weight: 600;
-            font-size: 0.9rem;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow: hidden;
+            box-shadow: 0 0 20px rgba(96, 165, 250, 0.3);
         }
 
-        .btn-next {
-            background: var(--accent);
-            color: #0f172a;
+        /* --- 6. 10 THINGS I LIKE --- */
+        .reasons-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            width: 100%;
+            max-width: 800px;
         }
-        .btn-next:hover { 
-            background: #93c5fd; 
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px -5px rgba(96, 165, 250, 0.4);
-        }
-
-        .btn-prev {
-            background: rgba(255,255,255,0.05);
-            color: var(--text-sec);
-        }
-        .btn-prev:hover { background: rgba(255,255,255,0.1); color: white; }
-
-        /* Progress Dots (Titik-titik bawah) */
-        .progress-dots {
-            display: flex;
-            justify-content: center;
-            gap: 6px;
-            margin-bottom: 20px;
-        }
-        .dot {
-            width: 6px; height: 6px;
-            background: rgba(255,255,255,0.2);
-            border-radius: 50%;
-            transition: all 0.3s;
-        }
-        .dot.active {
-            background: var(--accent);
-            width: 20px;
+        .reason-card {
+            background: var(--bg-secondary);
+            padding: 20px;
             border-radius: 10px;
+            cursor: pointer;
+            transition: 0.3s;
+            border: 1px solid transparent;
+        }
+        .reason-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-5px);
+            background: rgba(96, 165, 250, 0.1);
+        }
+        .reason-icon { font-size: 2rem; color: var(--accent); margin-bottom: 10px; }
+
+        /* --- 7. INSIDE JOKES --- */
+        .joke-box {
+            background: #fde047; /* Warna post-it */
+            color: #333;
+            padding: 20px;
+            transform: rotate(-2deg);
+            width: 250px;
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
+            box-shadow: 5px 5px 10px rgba(0,0,0,0.3);
+            margin: 10px;
         }
 
-        .music-hint {
-            margin-top: 20px;
-            font-size: 0.75rem;
-            color: var(--text-sec);
-            opacity: 0.7;
-            cursor: pointer;
+        /* --- 8. GIFT SECTION --- */
+        .gift-box { font-size: 5rem; cursor: pointer; animation: bounce 2s infinite; }
+        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
+
+        /* --- 9. FOOTER --- */
+        footer { padding: 50px; background: #000; text-align: center; font-size: 0.9rem; color: #666; }
+
+        /* Mobile Responsive Timeline */
+        @media screen and (max-width: 600px) {
+            .timeline::after { left: 31px; }
+            .container-tl { width: 100%; padding-left: 70px; padding-right: 25px; }
+            .left, .right { left: 0; text-align: left; }
         }
     </style>
 </head>
 <body>
 
-    <div class="stars" id="stars"></div>
+    <div id="login-overlay">
+        <h2 style="border:none">🔒 Locked Heart</h2>
+        <p>Masukkan tanggal jadian kita / tanggal lahir kamu (4 digit)</p>
+        <p><i>Contoh: 2024</i></p>
+        <div class="login-box">
+            <input type="password" id="passInput" class="login-input" placeholder="****">
+            <br>
+            <button class="login-btn" onclick="checkPass()">Buka Hati ❤️</button>
+            <p id="errorMsg" style="color: red; display: none; margin-top: 10px;">Password salah, ayo inget-inget lagi!</p>
+        </div>
+    </div>
 
     <audio id="lagu" loop>
         <source src="https://assets.mixkit.co/music/preview/mixkit-piano-reflection-593.mp3" type="audio/mpeg">
     </audio>
 
-    <div class="container">
-        <div class="card">
-            <div class="progress-dots" id="dotsContainer"></div>
+    <section class="hero" id="home">
+        <h1>Happy Birthday,<br>My Favorite Human 🤍</h1>
+        <p>Scroll ke bawah, aku punya sesuatu buat kamu...</p>
+        <a href="#letter" class="hero-btn">Let's Start ⬇️</a>
+    </section>
 
-            <div class="photo-wrapper">
-                <div class="pulse-ring"></div>
-                <div class="photo-container">
-                    <img src="foto.jpg" alt="Foto Kita">
+    <section id="letter">
+        <div class="typewriter-box reveal">
+            <h2>Dear Kamu...</h2>
+            <p id="typing-text"></p> </div>
+    </section>
+
+    <section>
+        <h2 class="reveal">Perjalanan Kita 🚀</h2>
+        <div class="timeline reveal">
+            <div class="container-tl left">
+                <div class="content-tl">
+                    <h3>📅 Awal Kenal</h3>
+                    <p>Inget gak waktu pertama kali kita chat? Canggung banget tapi seru.</p>
                 </div>
             </div>
-
-            <h1 id="judul">Happy Birthday!</h1>
-
-            <div class="content-area" id="kontenTeks">
+            <div class="container-tl right">
+                <div class="content-tl">
+                    <h3>🌹 First Date</h3>
+                    <p>Hari dimana aku sadar, "Wah, aku nyaman banget sama orang ini."</p>
                 </div>
-
-            <div class="nav-buttons">
-                <button class="btn btn-prev" onclick="gantiSlide(-1)" id="btnPrev">Kembali</button>
-                <button class="btn btn-next" onclick="gantiSlide(1)" id="btnNext">Lanjut</button>
             </div>
-
-            <div class="music-hint" onclick="toggleMusic()">🎵 Tap untuk Musik</div>
+            <div class="container-tl left">
+                <div class="content-tl">
+                    <h3>😂 Momen Kocak</h3>
+                    <p>Waktu kamu salah tingkah atau lakuin hal konyol, itu favorit aku.</p>
+                </div>
+            </div>
         </div>
-    </div>
+    </section>
+
+    <section>
+        <h2 class="reveal">Kenangan Kita 📸</h2>
+        <div class="gallery-grid reveal">
+            <div class="polaroid">
+                <img src="foto.jpg" alt="Foto 1">
+                <div class="caption">Us</div>
+            </div>
+            <div class="polaroid">
+                <img src="https://via.placeholder.com/200x250" alt="Foto 2">
+                <div class="caption">Cute</div>
+            </div>
+            <div class="polaroid">
+                <img src="https://via.placeholder.com/200x250" alt="Foto 3">
+                <div class="caption">Love</div>
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <h2 class="reveal">Lagu Buat Kamu 🎵</h2>
+        <p class="reveal">Dengerin lagu ini, liriknya tuh "Kita Banget".</p>
+        <div class="spotify-wrapper reveal">
+            <iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/4cOdK2wGLETKBW3PvgPWqT?utm_source=generator" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+        </div>
+    </section>
+
+    <section>
+        <h2 class="reveal">Kenapa Aku Sayang? 💙</h2>
+        <div class="reasons-grid reveal">
+            <div class="reason-card"><div class="reason-icon">😁</div><p>Senyum kamu nular banget</p></div>
+            <div class="reason-card"><div class="reason-icon">👂</div><p>Pendengar yang baik</p></div>
+            <div class="reason-card"><div class="reason-icon">🥺</div><p>Sabar ngadepin aku</p></div>
+            <div class="reason-card"><div class="reason-icon">😂</div><p>Ketawanya lucu</p></div>
+            <div class="reason-card"><div class="reason-icon">💪</div><p>Selalu support aku</p></div>
+            <div class="reason-card"><div class="reason-icon">🍲</div><p>Partner makan terbaik</p></div>
+        </div>
+    </section>
+
+    <section>
+        <h2 class="reveal">Cuma Kita yang Tau 🤫</h2>
+        <div class="gallery-grid reveal">
+            <div class="joke-box">"Inget gak pas kamu jatoh di parkiran? wkwk"</div>
+            <div class="joke-box">"Kata keramat kita: TERSERAH"</div>
+        </div>
+    </section>
+
+    <section>
+        <h2 class="reveal">Satu Lagi... 🎁</h2>
+        <p class="reveal">Klik kadonya dong!</p>
+        <div class="gift-box reveal" onclick="openGift()">🎁</div>
+    </section>
+
+    <footer>
+        <p>Made with ❤️ by [Nama Kamu]</p>
+        <p>© 2026 Special Birthday Edition</p>
+    </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
-
     <script>
-        // --- 📝 EDIT KATA-KATA DI SINI (ADA 8 SLIDE) ---
-        const slides = [
-            {
-                judul: "Happy Level Up! 🎂",
-                teks: "Selamat ulang tahun buat manusia paling spesial di bumi ini. Cieee, umurnya nambah nih yeee. Semoga jatah bahagianya juga nambah berkali-kali lipat ya!"
-            },
-            {
-                judul: "Flashback Dikit...",
-                teks: "Kalau diinget-inget, lucu juga ya perjalanan kita. Dari yang awalnya asing, sampai jadi tempat pulang. Makasih udah bertahan dan berjuang bareng-bareng sejauh ini."
-            },
-            {
-                judul: "Kenapa Dark Mode?",
-                teks: "Aku pilih tema gelap & biru tua ini karena filosofinya: <br><i>'Meskipun dunia lagi gelap atau berat, kamu tetep jadi bintang paling terang buat aku.'</i> ✨"
-            },
-            {
-                judul: "Tentang Kamu",
-                teks: "Kamu itu orang baik. Sabarnya luas banget (terutama ngadepin aku wkwk). Jangan pernah ngerasa sendiri ya, karena aku selalu bangga punya kamu."
-            },
-            {
-                judul: "Doaku Hari Ini",
-                teks: "Semoga tahun ini kamu makin dewasa, rezekinya mengalir deras, sehat terus, dan apa yang kamu semogakan segera tersemogakan. Aamiin paling kenceng!"
-            },
-            {
-                judul: "Satu Janji",
-                teks: "Aku gak bisa janji langit selalu cerah. Tapi aku janji, kalau hujan turun, aku yang bakal payungin kamu. Kita hadapin semuanya bareng ya? ☔💙"
-            },
-            {
-                judul: "Siap Hadiah?",
-                teks: "Sebenernya kado terindah itu kehadiran aku sih... Hahaha bercanda deng. <br><br>Aku cuma mau bilang..."
-            },
-            {
-                judul: "I Love You! ❤️",
-                teks: "Sekali lagi, Happy Birthday Sayang! <br>Terima kasih sudah lahir ke dunia. <br><br><i>Love you to the moon and back! 🚀</i>"
-            }
-        ];
+        // --- 🔑 KONFIGURASI PASSWORD DI SINI ---
+        const MY_PASSWORD = "2024"; // Ganti jadi tanggal jadian/lahir
+        
+        // --- 📝 KONFIGURASI SURAT CINTA ---
+        const suratCinta = "Hai sayang... Selamat ulang tahun ya! 🎉\n\nMakasih udah lahir ke dunia dan jadi alasan aku senyum setiap hari. Aku bersyukur banget bisa kenal sama kamu. Semoga di tahun ini kamu makin bahagia, makin sehat, dan semua impianmu tercapai. \n\nI Love You 3000! ❤️";
 
-        // --- SCRIPT LOGIKA (JANGAN DIUBAH KECUALI PAHAM) ---
-        let currentSlide = 0;
-        const totalSlides = slides.length;
-        const lagu = document.getElementById("lagu");
-
-        // Init
-        createStars();
-        createDots();
-        updateUI();
-
-        function updateUI() {
-            // Update Teks
-            document.getElementById("judul").innerText = slides[currentSlide].judul;
-            document.getElementById("kontenTeks").innerHTML = `<p>${slides[currentSlide].teks}</p>`;
-
-            // Update Dots
-            const dots = document.querySelectorAll(".dot");
-            dots.forEach((dot, index) => {
-                if (index === currentSlide) dot.classList.add("active");
-                else dot.classList.remove("active");
-            });
-
-            // Tombol Navigasi
-            const btnPrev = document.getElementById("btnPrev");
-            const btnNext = document.getElementById("btnNext");
-
-            if (currentSlide === 0) {
-                btnPrev.style.opacity = "0"; 
-                btnPrev.style.pointerEvents = "none";
+        // --- LOGIKA PROGRAM ---
+        const loginOverlay = document.getElementById('login-overlay');
+        const lagu = document.getElementById('lagu');
+        const typingText = document.getElementById('typing-text');
+        
+        function checkPass() {
+            const input = document.getElementById('passInput').value;
+            if (input === MY_PASSWORD) {
+                // Password Benar
+                loginOverlay.style.opacity = 0;
+                setTimeout(() => {
+                    loginOverlay.style.display = 'none';
+                    lagu.play(); // Musik mulai
+                    typeWriter(); // Efek ngetik mulai
+                }, 500);
             } else {
-                btnPrev.style.opacity = "1"; 
-                btnPrev.style.pointerEvents = "auto";
-            }
-
-            if (currentSlide === totalSlides - 1) {
-                btnNext.innerText = "Kirim Peluk 🤗";
-                btnNext.style.background = "linear-gradient(90deg, #60a5fa, #c084fc)";
-                btnNext.style.color = "white";
-            } else {
-                btnNext.innerText = "Lanjut";
-                btnNext.style.background = ""; 
-                btnNext.style.color = "";
+                // Password Salah
+                document.getElementById('errorMsg').style.display = 'block';
             }
         }
 
-        function gantiSlide(arah) {
-            if (lagu.paused) lagu.play().catch(e => console.log("Audio play failed"));
-
-            if (currentSlide === totalSlides - 1 && arah === 1) {
-                rayakan();
-                return;
+        // Efek Ngetik
+        let i = 0;
+        function typeWriter() {
+            if (i < suratCinta.length) {
+                typingText.innerHTML += suratCinta.charAt(i) === '\n' ? '<br>' : suratCinta.charAt(i);
+                i++;
+                setTimeout(typeWriter, 50); // Kecepatan ngetik
             }
-
-            currentSlide += arah;
-            updateUI();
         }
 
-        function rayakan() {
-            // Confetti Kiri Kanan
-            var duration = 3000;
+        // Animasi Scroll (Reveal)
+        window.addEventListener('scroll', reveal);
+        function reveal() {
+            var reveals = document.querySelectorAll('.reveal');
+            for (var i = 0; i < reveals.length; i++) {
+                var windowHeight = window.innerHeight;
+                var elementTop = reveals[i].getBoundingClientRect().top;
+                var elementVisible = 150;
+                if (elementTop < windowHeight - elementVisible) {
+                    reveals[i].classList.add('active');
+                }
+            }
+        }
+
+        // Efek Buka Kado
+        function openGift() {
+            var duration = 3 * 1000;
             var end = Date.now() + duration;
 
             (function frame() {
-                confetti({
-                    particleCount: 7,
-                    angle: 60,
-                    spread: 55,
-                    origin: { x: 0 },
-                    colors: ['#60a5fa', '#ffffff']
-                });
-                confetti({
-                    particleCount: 7,
-                    angle: 120,
-                    spread: 55,
-                    origin: { x: 1 },
-                    colors: ['#60a5fa', '#ffffff']
-                });
-
-                if (Date.now() < end) {
-                    requestAnimationFrame(frame);
-                }
+                confetti({ particleCount: 5, angle: 60, spread: 55, origin: { x: 0 }, colors: ['#60a5fa', '#ffffff'] });
+                confetti({ particleCount: 5, angle: 120, spread: 55, origin: { x: 1 }, colors: ['#60a5fa', '#ffffff'] });
+                if (Date.now() < end) requestAnimationFrame(frame);
             }());
             
-            alert("Peluk jauhh! 🤗 Jangan lupa senyum hari ini!");
-        }
-
-        function toggleMusic() {
-            if (lagu.paused) lagu.play();
-            else lagu.pause();
-        }
-
-        function createDots() {
-            const container = document.getElementById("dotsContainer");
-            container.innerHTML = "";
-            for (let i = 0; i < totalSlides; i++) {
-                const dot = document.createElement("div");
-                dot.classList.add("dot");
-                container.appendChild(dot);
-            }
-        }
-
-        function createStars() {
-            const starsContainer = document.getElementById("stars");
-            for (let i = 0; i < 50; i++) {
-                const star = document.createElement("div");
-                star.className = "star";
-                star.style.left = Math.random() * 100 + "%";
-                star.style.top = Math.random() * 100 + "%";
-                star.style.setProperty("--duration", (Math.random() * 3 + 2) + "s");
-                star.style.setProperty("--opacity", Math.random());
-                starsContainer.appendChild(star);
-            }
+            alert("Hadiahnya adalah... DOA YANG TULUS dan TRAKTIRAN MAKAN SEPUASNYA! 😆💙 Bilang mau makan di mana?");
         }
     </script>
 </body>
