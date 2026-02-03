@@ -167,39 +167,66 @@
         }
         .spotify-box { flex: 1; min-width: 300px; }
         
-        /* --- NEW: ULTRA GLASS & FLUID PHYSICS --- */
+        /* --- NEW: HIGH GLOSS BUBBLES --- */
         .jokes-section { overflow: hidden; position: relative; }
         .jokes-container { position: relative; height: 700px; width: 100%; max-width: 1200px; }
         
-        .bubble-glass {
+        .bubble-glossy {
             position: absolute;
             width: 130px; height: 130px;
             border-radius: 50%;
             
-            /* ULTRA REALISTIC GLASS CSS */
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.01) 100%);
-            backdrop-filter: blur(12px); /* Blur lebih kuat */
-            -webkit-backdrop-filter: blur(12px);
-            
-            /* Border Kilap (Specular) */
-            border-top: 1px solid rgba(255, 255, 255, 0.7); /* Kilap atas tajam */
-            border-left: 1px solid rgba(255, 255, 255, 0.3);
-            border-bottom: 1px solid rgba(0, 0, 0, 0.3); /* Gelap bawah */
-            border-right: 1px solid rgba(255, 255, 255, 0.1);
+            /* BASE MATERIAL: Clear Transparent */
+            background: rgba(255, 255, 255, 0.05);
+            /* Blur secukupnya agar text terbaca, tapi jgn terlalu blur biar gak 'matte' */
+            backdrop-filter: blur(3px); 
+            -webkit-backdrop-filter: blur(3px);
 
-            /* Shadow Berlapis */
+            /* BORDERS: Tajam & High Contrast */
+            border: 1px solid rgba(255, 255, 255, 0.2); /* Base border */
+            border-top: 1px solid rgba(255, 255, 255, 0.8); /* Highlight Atas Terang */
+            border-bottom: 1px solid rgba(255, 255, 255, 0.5); /* Highlight Bawah */
+
+            /* SHADOWS: Inner Glow & Depth */
             box-shadow: 
-                inset 0px 10px 20px rgba(255, 255, 255, 0.1), /* Cahaya dalam atas */
-                inset 0px -10px 20px rgba(0, 0, 0, 0.4), /* Bayangan dalam bawah */
-                0px 15px 30px rgba(0,0,0,0.6); /* Shadow luar floating */
+                inset 0 0 20px rgba(255, 255, 255, 0.1), /* Glow halus di dalam */
+                0 10px 20px rgba(0, 0, 0, 0.3); /* Shadow bayangan jatuh */
             
-            color: rgba(255,255,255,0.95);
-            text-shadow: 0 2px 4px rgba(0,0,0,0.8); /* Teks lebih jelas */
+            color: white;
+            /* Text shadow penting biar kebaca di background bening */
+            text-shadow: 0 2px 5px rgba(0,0,0,0.9); 
             
             display: flex; justify-content: center; align-items: center; text-align: center;
-            font-size: 0.85rem; letter-spacing: 1px; padding: 15px; font-weight: 500;
+            font-size: 0.85rem; letter-spacing: 1px; padding: 15px; font-weight: 600;
             will-change: transform; 
-            /* Tidak ada transition CSS, gerakan dihandle full Physics JS biar smooth */
+            z-index: 2;
+        }
+
+        /* THE SHINE (PANTULAN CAHAYA LAMPU) - Biar Mengkilat */
+        .bubble-glossy::after {
+            content: '';
+            position: absolute;
+            top: 15%; left: 18%;
+            width: 35%; height: 20%;
+            border-radius: 50%;
+            background: radial-gradient(ellipse at center, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0) 70%);
+            transform: rotate(-45deg);
+            filter: blur(1px); /* Blur dikit biar nyatu tapi tetep tajam */
+            opacity: 0.9;
+            pointer-events: none;
+        }
+
+        /* SECONDARY RIM LIGHT (Pantulan Bawah) */
+        .bubble-glossy::before {
+            content: '';
+            position: absolute;
+            bottom: 10%; right: 15%;
+            width: 60%; height: 15%;
+            border-radius: 50%;
+            background: radial-gradient(ellipse at center, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0) 70%);
+            transform: rotate(-45deg);
+            filter: blur(5px);
+            pointer-events: none;
         }
 
         .spark {
@@ -219,7 +246,7 @@
             .timeline-container { width: 100%; padding-left: 70px; padding-right: 25px; }
             .left, .right { left: 0; text-align: left; }
             .music-layout { flex-direction: column; }
-            .bubble-glass { width: 90px; height: 90px; font-size: 0.65rem; } 
+            .bubble-glossy { width: 90px; height: 90px; font-size: 0.65rem; } 
             .jokes-container { height: 500px; }
         }
     </style>
@@ -452,16 +479,15 @@
             setTimeout(() => modal.style.display = 'none', 1500);
         }
 
-        // 6. --- ULTRA GLASS & PHYSICS LOGIC ---
+        // 6. --- HIGH GLOSS PHYSICS LOGIC ---
         function initJokes() {
             const container = document.getElementById('jokes-area');
             const section = document.getElementById('jokes-section');
             const rect = container.getBoundingClientRect();
             
-            // Randomly scatter bubbles initially
             jokes.forEach((joke, index) => {
                 const el = document.createElement('div');
-                el.className = 'bubble-glass';
+                el.className = 'bubble-glossy'; // Class Updated
                 el.innerText = joke;
                 container.appendChild(el);
 
@@ -469,12 +495,10 @@
                     el: el,
                     x: Math.random() * rect.width,
                     y: Math.random() * rect.height,
-                    vx: 0, // Velocity X
-                    vy: 0, // Velocity Y
-                    // Random "home" offset so they don't all target the EXACT mouse pixel
-                    offsetX: (Math.random() - 0.5) * 100, 
-                    offsetY: (Math.random() - 0.5) * 100,
-                    size: 130 // Estimasi size plus margin
+                    vx: 0, 
+                    vy: 0, 
+                    offsetX: (Math.random() - 0.5) * 150, // Slightly bigger random range 
+                    offsetY: (Math.random() - 0.5) * 150,
                 });
             });
 
@@ -496,62 +520,52 @@
             if (!container) return; 
             const rect = container.getBoundingClientRect();
             
-            // Mouse Position relative to container
             const relativeMouseX = mouseX - rect.left;
             const relativeMouseY = mouseY - rect.top;
 
             bubbleElements.forEach((bubble, i) => {
-                // 1. ATTRACTION (Tertarik ke kursor pelan-pelan)
-                // Target adalah posisi mouse + offset randomnya
+                // 1. ATTRACTION (Liquid Feel)
                 const targetX = relativeMouseX + bubble.offsetX;
                 const targetY = relativeMouseY + bubble.offsetY;
-
-                // Hitung jarak ke target
                 const dx = targetX - bubble.x;
                 const dy = targetY - bubble.y;
 
-                // Tambahkan Force ke Velocity (Semakin jauh semakin kuat nariknya, tapi dikali angka kecil biar pelan)
                 bubble.vx += dx * 0.002; 
                 bubble.vy += dy * 0.002;
 
-                // 2. REPULSION (Tolak menolak antar bubble biar ga numpuk)
+                // 2. REPULSION (Anti-Collision)
                 bubbleElements.forEach((otherBubble, j) => {
-                    if (i === j) return; // Jangan cek diri sendiri
+                    if (i === j) return; 
 
                     const diffX = bubble.x - otherBubble.x;
                     const diffY = bubble.y - otherBubble.y;
                     const distance = Math.sqrt(diffX*diffX + diffY*diffY);
-                    const minDistance = 140; // Jarak aman (130px size + 10px gap)
+                    const minDistance = 140; 
 
                     if (distance < minDistance) {
-                        // Kalau terlalu dekat, dorong menjauh dengan kuat
-                        const force = (minDistance - distance) * 0.05; // Kekuatan tolak
+                        const force = (minDistance - distance) * 0.05; 
                         const angle = Math.atan2(diffY, diffX);
-                        
                         bubble.vx += Math.cos(angle) * force;
                         bubble.vy += Math.sin(angle) * force;
                     }
                 });
 
-                // 3. WANDERING (Gerak acak dikit biar kayak ngapung di air)
+                // 3. WANDERING & FRICTION
                 bubble.vx += (Math.random() - 0.5) * 0.1;
                 bubble.vy += (Math.random() - 0.5) * 0.1;
-
-                // 4. FRICTION (Gesekan/Pengereman biar ga ngebut terus)
-                bubble.vx *= 0.94; // Semakin kecil semakin "berat" di air
+                bubble.vx *= 0.94; 
                 bubble.vy *= 0.94;
 
-                // Update Posisi
+                // Position Update
                 bubble.x += bubble.vx;
                 bubble.y += bubble.vy;
 
-                // Boundary Check (Biar ga keluar kotak)
+                // Boundaries
                 if (bubble.x < 0) { bubble.x = 0; bubble.vx *= -1; }
                 if (bubble.x > rect.width - 130) { bubble.x = rect.width - 130; bubble.vx *= -1; }
                 if (bubble.y < 0) { bubble.y = 0; bubble.vy *= -1; }
                 if (bubble.y > rect.height - 130) { bubble.y = rect.height - 130; bubble.vy *= -1; }
 
-                // Apply ke CSS
                 bubble.el.style.transform = `translate(${bubble.x}px, ${bubble.y}px)`;
             });
 
