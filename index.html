@@ -167,27 +167,39 @@
         }
         .spotify-box { flex: 1; min-width: 300px; }
         
-        /* --- NEW: INSIDE JOKES (3D CLASSY BUBBLES + CURSOR FOLLOW) --- */
+        /* --- NEW: INSIDE JOKES (iOS GLASS 3D + ANTI DEMPET) --- */
         .jokes-section { overflow: hidden; position: relative; }
-        .jokes-container { position: relative; height: 600px; width: 100%; max-width: 1000px; }
+        .jokes-container { position: relative; height: 700px; width: 100%; max-width: 1200px; }
         
-        .bubble-3d {
+        .bubble-ios {
             position: absolute;
-            width: 120px; height: 120px;
+            width: 130px; height: 130px;
             border-radius: 50%;
-            /* Efek Kaca Gelap 3D */
-            background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.15), rgba(0,0,0,0.8));
-            box-shadow: 
-                inset 0 0 20px rgba(255,255,255,0.05), /* Inner glow halus */
-                0 10px 20px rgba(0,0,0,0.3), /* Shadow bawah */
-                0 0 5px rgba(255,255,255,0.1); /* Rim light luar */
-            backdrop-filter: blur(4px); /* Efek kaca buram */
-            border: 1px solid rgba(255,255,255,0.1);
-            color: rgba(255,255,255,0.8);
             
+            /* GLASSMORPHISM iOS STYLE */
+            background: radial-gradient(120% 154% at 0% 0%, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.05) 50%, rgba(255, 255, 255, 0) 100%);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            
+            /* Border Light Accents (Atas Terang, Bawah Gelap dikit) */
+            border-top: 1px solid rgba(255, 255, 255, 0.5);
+            border-left: 1px solid rgba(255, 255, 255, 0.3);
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+
+            box-shadow: 
+                0 4px 20px rgba(0,0,0,0.4), /* Deep Shadow */
+                inset 0 0 20px rgba(255,255,255,0.05); /* Inner Glow */
+            
+            color: rgba(255,255,255,0.9);
             display: flex; justify-content: center; align-items: center; text-align: center;
-            font-size: 0.8rem; letter-spacing: 1px; padding: 10px;
-            will-change: transform; /* Optimasi performa gerak */
+            font-size: 0.8rem; letter-spacing: 1px; padding: 15px; font-weight: 500;
+            will-change: transform; transition: box-shadow 0.3s;
+        }
+
+        .bubble-ios:hover {
+            box-shadow: 0 4px 30px rgba(255,255,255,0.2);
+            background: radial-gradient(120% 154% at 0% 0%, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0.1) 50%, rgba(255, 255, 255, 0) 100%);
         }
 
         .spark {
@@ -207,7 +219,8 @@
             .timeline-container { width: 100%; padding-left: 70px; padding-right: 25px; }
             .left, .right { left: 0; text-align: left; }
             .music-layout { flex-direction: column; }
-            .bubble-3d { width: 90px; height: 90px; font-size: 0.7rem; } /* Bubble lebih kecil di HP */
+            .bubble-ios { width: 90px; height: 90px; font-size: 0.65rem; } 
+            .jokes-container { height: 500px; }
         }
     </style>
 </head>
@@ -359,7 +372,7 @@
         let mouseY = window.innerHeight / 2;
         let bubbleElements = [];
 
-        // Track Mouse Position
+        // Track Mouse
         document.addEventListener('mousemove', (e) => {
             mouseX = e.clientX;
             mouseY = e.clientY;
@@ -421,7 +434,7 @@
                 scrollOverlay.style.display = 'none';
                 mainContent.style.display = 'block';
                 setTimeout(() => { mainContent.style.opacity = 1; }, 100);
-                initJokes(); // Mulai inisialisasi jokes
+                initJokes();
             }, 1500);
         }
 
@@ -439,35 +452,59 @@
             setTimeout(() => modal.style.display = 'none', 1500);
         }
 
-        // 6. --- NEW: INSIDE JOKES LOGIC (3D & CURSOR FOLLOW) ---
+        // 6. --- NEW: JOKES LOGIC (SPACED OUT) ---
         function initJokes() {
             const container = document.getElementById('jokes-area');
             const section = document.getElementById('jokes-section');
             const rect = container.getBoundingClientRect();
             
-            // Create Bubbles
+            // Ukuran bubble perkiraan + margin biar gak nempel
+            const bubbleSize = 130; 
+            const placedBubbles = [];
+
             jokes.forEach((joke, index) => {
                 const el = document.createElement('div');
-                el.className = 'bubble-3d';
+                el.className = 'bubble-ios';
                 el.innerText = joke;
                 container.appendChild(el);
 
-                // Store bubble data for animation
+                // --- ALGORITMA ANTI TABRAKAN ---
+                let x, y, overlap;
+                let attempts = 0;
+                do {
+                    overlap = false;
+                    x = Math.random() * (rect.width - bubbleSize);
+                    y = Math.random() * (rect.height - bubbleSize);
+                    
+                    // Cek jarak dengan bubble lain yang sudah ditaruh
+                    for (let pb of placedBubbles) {
+                        const dx = x - pb.x;
+                        const dy = y - pb.y;
+                        const distance = Math.sqrt(dx*dx + dy*dy);
+                        if (distance < bubbleSize + 20) { // 20px extra spacing
+                            overlap = true;
+                            break;
+                        }
+                    }
+                    attempts++;
+                } while (overlap && attempts < 50); // Maksimal 50x coba cari tempat
+
+                placedBubbles.push({ x, y });
+
+                // Simpan posisi awal (Origin) agar gerakan tidak bikin numpuk
                 bubbleElements.push({
                     el: el,
-                    x: Math.random() * rect.width,
-                    y: Math.random() * rect.height,
-                    // Random offsets & speeds for organic movement
-                    offsetX: (Math.random() - 0.5) * 200,
-                    offsetY: (Math.random() - 0.5) * 200,
-                    speed: 0.02 + Math.random() * 0.03
+                    originX: x, // Posisi asli
+                    originY: y, // Posisi asli
+                    currentX: x,
+                    currentY: y,
+                    parallaxSpeed: 0.05 + Math.random() * 0.05 // Speed beda-beda
                 });
             });
 
-            // Start Animation Loop
             animateBubbles();
 
-            // Create Sparks
+            // Sparks
             setInterval(() => {
                 const spark = document.createElement('div');
                 spark.className = 'spark';
@@ -480,20 +517,28 @@
 
         function animateBubbles() {
             const container = document.getElementById('jokes-area');
-            if (!container) return; // Safety check
+            if (!container) return; 
             const rect = container.getBoundingClientRect();
+            
+            // Titik tengah container
+            const centerX = rect.left + rect.width / 2;
+            const centerY = rect.top + rect.height / 2;
+
+            // Hitung seberapa jauh mouse dari tengah (Offset)
+            const offsetX = (mouseX - centerX) * 0.1; // 0.1 factor biar geraknya halus gak liar
+            const offsetY = (mouseY - centerY) * 0.1;
 
             bubbleElements.forEach(bubble => {
-                // Calculate target based on mouse position relative to container center
-                const targetX = (mouseX - rect.left) + bubble.offsetX;
-                const targetY = (mouseY - rect.top) + bubble.offsetY;
+                // Target bukan posisi mouse, tapi Posisi Asli + Offset Mouse
+                // Ini bikin efek PARALLAX (gerak bareng tapi tetep jaga jarak)
+                const targetX = bubble.originX + (offsetX * bubble.parallaxSpeed * 5); 
+                const targetY = bubble.originY + (offsetY * bubble.parallaxSpeed * 5);
 
-                // Smooth Movement (Linear Interpolation / Lerp)
-                bubble.x += (targetX - bubble.x) * bubble.speed;
-                bubble.y += (targetY - bubble.y) * bubble.speed;
+                // Smooth Linear Interpolation
+                bubble.currentX += (targetX - bubble.currentX) * 0.1;
+                bubble.currentY += (targetY - bubble.currentY) * 0.1;
 
-                // Apply position (centering the bubble)
-                bubble.el.style.transform = `translate(${bubble.x - 50}px, ${bubble.y - 50}px)`;
+                bubble.el.style.transform = `translate(${bubble.currentX}px, ${bubble.currentY}px)`;
             });
 
             requestAnimationFrame(animateBubbles);
