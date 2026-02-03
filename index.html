@@ -3,22 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Happy Birthday!</title>
+    <title>Special Day for You</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&family=Sacramento&display=swap" rel="stylesheet">
     <style>
         /* --- TEMA WARNA (DARK ELEGANT) --- */
         :root {
             --bg-dark: #0f172a;
-            --card-bg: rgba(30, 41, 59, 0.9);
-            --accent: #3b82f6; /* Biru terang dikit */
-            --accent-dark: #1e3a8a; /* Biru tua */
-            --text-main: #f1f5f9;
+            --card-bg: rgba(15, 23, 42, 0.85);
+            --accent: #60a5fa; /* Biru lebih soft */
+            --accent-dark: #1e40af; /* Biru tua banget */
+            --text-main: #f8fafc;
             --text-sec: #94a3b8;
         }
 
         body {
             background-color: var(--bg-dark);
-            background-image: radial-gradient(circle at center, #1e293b 0%, #0f172a 100%);
+            background-image: 
+                radial-gradient(at 0% 0%, hsla(253,16%,7%,1) 0, transparent 50%), 
+                radial-gradient(at 50% 0%, hsla(225,39%,30%,1) 0, transparent 50%), 
+                radial-gradient(at 100% 0%, hsla(339,49%,30%,1) 0, transparent 50%);
             display: flex;
             justify-content: center;
             align-items: center;
@@ -29,24 +32,24 @@
             overflow: hidden;
         }
 
-        /* Background Hati Melayang (Subtle) */
-        .bg-hearts {
-            position: absolute;
+        /* Bintang-bintang background */
+        .stars {
+            position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            overflow: hidden;
             z-index: -1;
+            pointer-events: none;
         }
-        .heart-bg {
+        .star {
             position: absolute;
-            bottom: -10vh;
-            color: rgba(59, 130, 246, 0.1); /* Biru transparan */
-            font-size: 2rem;
-            animation: fly 10s linear infinite;
+            width: 2px; height: 2px;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle var(--duration) ease-in-out infinite;
+            opacity: var(--opacity);
         }
-        @keyframes fly {
-            0% { transform: translateY(0) rotate(0deg); opacity: 0; }
-            20% { opacity: 1; }
-            100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.2; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.5); }
         }
 
         .container {
@@ -59,124 +62,150 @@
         .card {
             background: var(--card-bg);
             padding: 30px;
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.6);
-            border: 1px solid rgba(255,255,255,0.1);
-            backdrop-filter: blur(10px);
+            border-radius: 24px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255,255,255,0.08);
+            backdrop-filter: blur(12px);
             text-align: center;
-            transition: height 0.3s ease;
+            transition: all 0.5s ease;
         }
 
-        /* Foto dengan efek glowing biru */
-        .photo-container {
+        .photo-wrapper {
+            position: relative;
             width: 140px;
             height: 140px;
             margin: 0 auto 20px;
+        }
+
+        .photo-container {
+            width: 100%;
+            height: 100%;
             border-radius: 50%;
             overflow: hidden;
             border: 3px solid var(--accent);
-            box-shadow: 0 0 25px rgba(59, 130, 246, 0.4);
+            box-shadow: 0 0 30px rgba(96, 165, 250, 0.3);
+            position: relative;
+            z-index: 2;
         }
         .photo-container img {
             width: 100%;
             height: 100%;
             object-fit: cover;
+            filter: brightness(0.9);
+        }
+
+        /* Lingkaran animasi di belakang foto */
+        .pulse-ring {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            border-radius: 50%;
+            border: 2px solid var(--accent);
+            animation: pulse-animation 3s infinite;
+            z-index: 1;
+        }
+        @keyframes pulse-animation {
+            0% { transform: scale(1); opacity: 0.8; }
+            100% { transform: scale(1.5); opacity: 0; }
         }
 
         h1 {
             font-family: 'Sacramento', cursive;
-            font-size: 2.5rem;
-            color: var(--accent);
-            margin: 0;
-            text-shadow: 0 2px 10px rgba(59, 130, 246, 0.3);
+            font-size: 2.2rem;
+            background: linear-gradient(to right, #60a5fa, #c084fc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin: 5px 0;
         }
 
-        /* Area Teks Konten */
         .content-area {
-            min-height: 120px;
+            min-height: 140px; /* Lebih tinggi biar muat teks panjang */
             display: flex;
             align-items: center;
             justify-content: center;
             flex-direction: column;
-            margin: 20px 0;
+            margin: 15px 0;
         }
 
         p {
-            font-size: 0.95rem;
-            line-height: 1.6;
-            color: var(--text-main);
+            font-size: 0.9rem;
+            line-height: 1.7;
+            color: #e2e8f0;
             margin: 0;
-            animation: fadeIn 0.8s;
+            opacity: 0;
+            animation: fadeIn 1s forwards;
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+            to { opacity: 1; }
         }
 
-        /* Tombol Navigasi */
+        /* Navigasi */
         .nav-buttons {
             display: flex;
             justify-content: space-between;
-            gap: 10px;
-            margin-top: 20px;
+            gap: 12px;
+            margin-top: 25px;
         }
 
         .btn {
             flex: 1;
-            padding: 12px;
+            padding: 14px;
             border: none;
-            border-radius: 50px;
+            border-radius: 12px;
             cursor: pointer;
             font-family: 'Poppins', sans-serif;
             font-weight: 600;
-            transition: all 0.2s;
+            font-size: 0.9rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .btn-next {
-            background: linear-gradient(45deg, var(--accent-dark), var(--accent));
-            color: white;
-            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
+            background: var(--accent);
+            color: #0f172a;
         }
-        .btn-next:hover { transform: scale(1.05); }
+        .btn-next:hover { 
+            background: #93c5fd; 
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px -5px rgba(96, 165, 250, 0.4);
+        }
 
         .btn-prev {
-            background: transparent;
-            border: 1px solid var(--text-sec);
+            background: rgba(255,255,255,0.05);
             color: var(--text-sec);
         }
-        .btn-prev:hover { background: rgba(255,255,255,0.05); color: white; }
+        .btn-prev:hover { background: rgba(255,255,255,0.1); color: white; }
 
-        .hidden { display: none; }
-
-        /* Progress Bar (Garis indikator di atas) */
-        .progress-container {
-            width: 100%;
-            height: 4px;
-            background: rgba(255,255,255,0.1);
-            border-radius: 2px;
+        /* Progress Dots (Titik-titik bawah) */
+        .progress-dots {
+            display: flex;
+            justify-content: center;
+            gap: 6px;
             margin-bottom: 20px;
-            overflow: hidden;
         }
-        .progress-bar {
-            height: 100%;
+        .dot {
+            width: 6px; height: 6px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 50%;
+            transition: all 0.3s;
+        }
+        .dot.active {
             background: var(--accent);
-            width: 25%; /* Mulai dari 25% */
-            transition: width 0.3s ease;
+            width: 20px;
+            border-radius: 10px;
         }
 
         .music-hint {
-            margin-top: 15px;
+            margin-top: 20px;
             font-size: 0.75rem;
             color: var(--text-sec);
+            opacity: 0.7;
             cursor: pointer;
-            text-decoration: underline;
         }
     </style>
 </head>
 <body>
 
-    <div class="bg-hearts" id="bgHearts"></div>
+    <div class="stars" id="stars"></div>
 
     <audio id="lagu" loop>
         <source src="https://assets.mixkit.co/music/preview/mixkit-piano-reflection-593.mp3" type="audio/mpeg">
@@ -184,12 +213,13 @@
 
     <div class="container">
         <div class="card">
-            <div class="progress-container">
-                <div class="progress-bar" id="progressBar"></div>
-            </div>
+            <div class="progress-dots" id="dotsContainer"></div>
 
-            <div class="photo-container">
-                <img src="foto.jpg" alt="Foto Kita">
+            <div class="photo-wrapper">
+                <div class="pulse-ring"></div>
+                <div class="photo-container">
+                    <img src="foto.jpg" alt="Foto Kita">
+                </div>
             </div>
 
             <h1 id="judul">Happy Birthday!</h1>
@@ -202,123 +232,133 @@
                 <button class="btn btn-next" onclick="gantiSlide(1)" id="btnNext">Lanjut</button>
             </div>
 
-            <div class="music-hint" onclick="toggleMusic()">🎵 Klik untuk Putar Musik</div>
+            <div class="music-hint" onclick="toggleMusic()">🎵 Tap untuk Musik</div>
         </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
 
     <script>
-        // --- 📝 BAGIAN EDIT KATA-KATA DI SINI ---
-        // Kamu bisa tambah slide sebanyak yang kamu mau.
+        // --- 📝 EDIT KATA-KATA DI SINI (ADA 8 SLIDE) ---
         const slides = [
             {
-                judul: "Happy Birthday!",
-                teks: "Selamat ulang tahun buat manusia favoritku! 🎉<br>Hari ini adalah hari spesialmu, jadi aku siapin sesuatu yang kecil ini buat kamu."
+                judul: "Happy Level Up! 🎂",
+                teks: "Selamat ulang tahun buat manusia paling spesial di bumi ini. Cieee, umurnya nambah nih yeee. Semoga jatah bahagianya juga nambah berkali-kali lipat ya!"
             },
             {
-                judul: "Terima Kasih",
-                teks: "Makasih udah jadi orang yang selalu ada, selalu sabar, dan selalu bikin aku ketawa. Hidup rasanya lebih enteng kalau ada kamu."
+                judul: "Flashback Dikit...",
+                teks: "Kalau diinget-inget, lucu juga ya perjalanan kita. Dari yang awalnya asing, sampai jadi tempat pulang. Makasih udah bertahan dan berjuang bareng-bareng sejauh ini."
             },
             {
-                judul: "Harapanku",
-                teks: "Semoga di usia yang baru ini, kamu makin dewasa, makin sukses, rezekinya lancar, dan yang paling penting... makin sayang sama aku! 😜💙"
+                judul: "Kenapa Dark Mode?",
+                teks: "Aku pilih tema gelap & biru tua ini karena filosofinya: <br><i>'Meskipun dunia lagi gelap atau berat, kamu tetep jadi bintang paling terang buat aku.'</i> ✨"
             },
             {
-                judul: "I Love You",
-                teks: "Sekali lagi, Happy Birthday Sayang! 🎂<br>Let's make this year amazing together. Love you to the moon and back! 🚀❤️"
+                judul: "Tentang Kamu",
+                teks: "Kamu itu orang baik. Sabarnya luas banget (terutama ngadepin aku wkwk). Jangan pernah ngerasa sendiri ya, karena aku selalu bangga punya kamu."
+            },
+            {
+                judul: "Doaku Hari Ini",
+                teks: "Semoga tahun ini kamu makin dewasa, rezekinya mengalir deras, sehat terus, dan apa yang kamu semogakan segera tersemogakan. Aamiin paling kenceng!"
+            },
+            {
+                judul: "Satu Janji",
+                teks: "Aku gak bisa janji langit selalu cerah. Tapi aku janji, kalau hujan turun, aku yang bakal payungin kamu. Kita hadapin semuanya bareng ya? ☔💙"
+            },
+            {
+                judul: "Siap Hadiah?",
+                teks: "Sebenernya kado terindah itu kehadiran aku sih... Hahaha bercanda deng. <br><br>Aku cuma mau bilang..."
+            },
+            {
+                judul: "I Love You! ❤️",
+                teks: "Sekali lagi, Happy Birthday Sayang! <br>Terima kasih sudah lahir ke dunia. <br><br><i>Love you to the moon and back! 🚀</i>"
             }
         ];
 
-        // --- LOGIKA PROGRAM ---
+        // --- SCRIPT LOGIKA (JANGAN DIUBAH KECUALI PAHAM) ---
         let currentSlide = 0;
         const totalSlides = slides.length;
         const lagu = document.getElementById("lagu");
-        const progressBar = document.getElementById("progressBar");
 
-        // Tampilkan slide pertama saat dibuka
+        // Init
+        createStars();
+        createDots();
         updateUI();
-        createFloatingHearts();
 
         function updateUI() {
             // Update Teks
             document.getElementById("judul").innerText = slides[currentSlide].judul;
             document.getElementById("kontenTeks").innerHTML = `<p>${slides[currentSlide].teks}</p>`;
 
-            // Update Progress Bar
-            const percentage = ((currentSlide + 1) / totalSlides) * 100;
-            progressBar.style.width = percentage + "%";
+            // Update Dots
+            const dots = document.querySelectorAll(".dot");
+            dots.forEach((dot, index) => {
+                if (index === currentSlide) dot.classList.add("active");
+                else dot.classList.remove("active");
+            });
 
-            // Atur Tombol
+            // Tombol Navigasi
             const btnPrev = document.getElementById("btnPrev");
             const btnNext = document.getElementById("btnNext");
 
-            // Tombol Kembali hilang di slide pertama
             if (currentSlide === 0) {
-                btnPrev.style.opacity = "0";
+                btnPrev.style.opacity = "0"; 
                 btnPrev.style.pointerEvents = "none";
             } else {
-                btnPrev.style.opacity = "1";
+                btnPrev.style.opacity = "1"; 
                 btnPrev.style.pointerEvents = "auto";
             }
 
-            // Ubah teks tombol Next di akhir
             if (currentSlide === totalSlides - 1) {
-                btnNext.innerText = "Kirim Kado 🎁";
-                btnNext.style.background = "linear-gradient(45deg, #ffd700, #ffb700)"; // Warna emas
+                btnNext.innerText = "Kirim Peluk 🤗";
+                btnNext.style.background = "linear-gradient(90deg, #60a5fa, #c084fc)";
+                btnNext.style.color = "white";
             } else {
-                btnNext.innerText = "Lanjut ➡️";
-                btnNext.style.background = ""; // Reset warna
+                btnNext.innerText = "Lanjut";
+                btnNext.style.background = ""; 
+                btnNext.style.color = "";
             }
         }
 
         function gantiSlide(arah) {
-            // Putar musik otomatis pas tombol pertama diklik
-            if (lagu.paused) {
-                lagu.play().catch(e => console.log("Audio play failed"));
+            if (lagu.paused) lagu.play().catch(e => console.log("Audio play failed"));
+
+            if (currentSlide === totalSlides - 1 && arah === 1) {
+                rayakan();
+                return;
             }
 
-            // Logika pindah slide
-            if (currentSlide === totalSlides - 1 && arah === 1) {
-                // Kalau ini slide terakhir dan klik lanjut -> Efek Rayakan
-                rayakan();
-            } else {
-                currentSlide += arah;
-                // Cegah error index
-                if (currentSlide < 0) currentSlide = 0;
-                if (currentSlide >= totalSlides) currentSlide = totalSlides - 1;
-                
-                updateUI();
-            }
+            currentSlide += arah;
+            updateUI();
         }
 
         function rayakan() {
-            // Efek Confetti Mewah
-            var duration = 3 * 1000;
+            // Confetti Kiri Kanan
+            var duration = 3000;
             var end = Date.now() + duration;
 
             (function frame() {
                 confetti({
-                    particleCount: 5,
+                    particleCount: 7,
                     angle: 60,
                     spread: 55,
                     origin: { x: 0 },
-                    colors: ['#3b82f6', '#ffffff', '#ffd700']
+                    colors: ['#60a5fa', '#ffffff']
                 });
                 confetti({
-                    particleCount: 5,
+                    particleCount: 7,
                     angle: 120,
                     spread: 55,
                     origin: { x: 1 },
-                    colors: ['#3b82f6', '#ffffff', '#ffd700']
+                    colors: ['#60a5fa', '#ffffff']
                 });
 
                 if (Date.now() < end) {
                     requestAnimationFrame(frame);
                 }
             }());
-
-            alert("Happy Birthday Sayangku! 💙 Jangan lupa traktir ya! wkwk");
+            
+            alert("Peluk jauhh! 🤗 Jangan lupa senyum hari ini!");
         }
 
         function toggleMusic() {
@@ -326,19 +366,26 @@
             else lagu.pause();
         }
 
-        // Bikin background hati melayang
-        function createFloatingHearts() {
-            const container = document.getElementById("bgHearts");
-            const heartCount = 15;
-            
-            for(let i=0; i<heartCount; i++) {
-                const heart = document.createElement("div");
-                heart.className = "heart-bg";
-                heart.innerHTML = "❤";
-                heart.style.left = Math.random() * 100 + "%";
-                heart.style.animationDuration = (Math.random() * 5 + 5) + "s";
-                heart.style.animationDelay = (Math.random() * 5) + "s";
-                container.appendChild(heart);
+        function createDots() {
+            const container = document.getElementById("dotsContainer");
+            container.innerHTML = "";
+            for (let i = 0; i < totalSlides; i++) {
+                const dot = document.createElement("div");
+                dot.classList.add("dot");
+                container.appendChild(dot);
+            }
+        }
+
+        function createStars() {
+            const starsContainer = document.getElementById("stars");
+            for (let i = 0; i < 50; i++) {
+                const star = document.createElement("div");
+                star.className = "star";
+                star.style.left = Math.random() * 100 + "%";
+                star.style.top = Math.random() * 100 + "%";
+                star.style.setProperty("--duration", (Math.random() * 3 + 2) + "s");
+                star.style.setProperty("--opacity", Math.random());
+                starsContainer.appendChild(star);
             }
         }
     </script>
