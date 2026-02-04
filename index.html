@@ -17,6 +17,9 @@
             --silk-transition: all 1.2s cubic-bezier(0.19, 1, 0.22, 1);
         }
 
+        /* 1. SMOOTH SCROLL FIX */
+        html { scroll-behavior: smooth; }
+
         * { box-sizing: border-box; cursor: none; }
 
         body {
@@ -52,7 +55,7 @@
 
         h1, h2, h3 { font-family: 'Playfair Display', serif; }
         
-        /* --- 1. LOGIN & INTRO --- */
+        /* --- LOGIN & INTRO --- */
         #login-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: radial-gradient(circle at center, #111 0%, #000 100%);
@@ -119,56 +122,39 @@
             font-family: 'Courier Prime', monospace; font-size: 0.6rem; color: #444; letter-spacing: 1px;
         }
 
-        /* --- 2. SURAT (REVISI ATMOSPHERE) --- */
+        /* --- SURAT (ATMOSPHERE) --- */
         #scroll-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: #080808; /* Deep black base */
-            z-index: 4000; display: none;
+            background: #080808; z-index: 4000; display: none;
             justify-content: center; align-items: center; opacity: 0; transition: var(--silk-transition);
-            overflow: hidden; /* For particles */
+            overflow: hidden;
         }
-        
-        /* Parallax Glow (Atmosphere) */
         .ambient-glow {
             position: absolute; top: 50%; left: 50%;
             width: 120vw; height: 120vh;
             background: radial-gradient(circle, rgba(100,100,100,0.08) 0%, rgba(0,0,0,0) 60%);
             transform: translate(-50%, -50%);
-            animation: pulseGlow 8s ease-in-out infinite alternate;
-            pointer-events: none; z-index: 0;
+            animation: pulseGlow 8s ease-in-out infinite alternate; pointer-events: none; z-index: 0;
         }
-        @keyframes pulseGlow {
-            0% { transform: translate(-50%, -50%) scale(1); opacity: 0.5; }
-            100% { transform: translate(-50%, -50%) scale(1.1); opacity: 0.8; }
-        }
-
-        /* Vignette (Focus Effect) */
+        @keyframes pulseGlow { 0% { transform: translate(-50%, -50%) scale(1); opacity: 0.5; } 100% { transform: translate(-50%, -50%) scale(1.1); opacity: 0.8; } }
         .vignette-overlay {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             background: radial-gradient(circle, transparent 35%, rgba(0,0,0,0.95) 90%);
             pointer-events: none; z-index: 1;
         }
-
-        /* Dust Surat */
         .letter-dust {
             position: absolute; background: rgba(255,255,255,0.2); border-radius: 50%;
             pointer-events: none; animation: floatDust linear infinite;
         }
-        @keyframes floatDust {
-            0% { transform: translateY(0); opacity: 0; }
-            50% { opacity: 0.5; }
-            100% { transform: translateY(-100px); opacity: 0; }
-        }
+        @keyframes floatDust { 0% { transform: translateY(0); opacity: 0; } 50% { opacity: 0.5; } 100% { transform: translateY(-100px); opacity: 0; } }
 
         .vintage-paper {
-            position: relative; z-index: 10; /* Di atas vignette */
-            width: 80%; max-width: 600px; padding: 50px; background: #0e0e0e; border: 1px solid #222;
+            position: relative; z-index: 10; width: 80%; max-width: 600px; padding: 50px; background: #0e0e0e; border: 1px solid #222;
             color: #ccc; box-shadow: 0 0 80px rgba(0,0,0,1); transform: translateY(20px); transition: var(--silk-transition);
         }
         .show-paper { opacity: 1; transform: translateY(0); }
 
-
-        /* --- MAIN CONTENT --- */
+        /* --- MAIN CONTENT & TRANSITION FIX --- */
         #echo-container {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             z-index: 4500; pointer-events: none; display: none;
@@ -179,14 +165,20 @@
         @keyframes echoPulse { 0% { transform: scale(0.8); opacity: 0; } 50% { opacity: 0.8; } 100% { transform: scale(2); opacity: 0; filter: blur(10px); } }
 
         #main-content { display: none; opacity: 0; transition: opacity 3s ease-in-out; }
+        
         section {
-            min-height: 100vh; padding: 80px 20px; display: flex; flex-direction: column;
-            justify-content: center; align-items: center; text-align: center; border-bottom: 1px solid #111; position: relative;
+            min-height: 100vh; padding: 100px 20px; display: flex; flex-direction: column;
+            justify-content: center; align-items: center; text-align: center; position: relative;
         }
+
+        /* 2. HERO REVISI (FADE TO BLACK LEBIH HALUS) */
         .hero {
-            background: linear-gradient(to bottom, rgba(0,0,0,0.5), #050505), url('foto.jpg');
+            /* Perhatikan gradasi di akhir: transparent ke #050505 full di 95% */
+            background: linear-gradient(to bottom, rgba(0,0,0,0.4) 0%, rgba(5,5,5,0) 50%, #050505 98%), url('foto.jpg');
             background-size: cover; background-position: center; background-attachment: fixed;
+            border-bottom: none; /* Hilangkan garis keras */
         }
+        .hero h1 { font-size: 3.5rem; text-shadow: 0 0 30px rgba(0,0,0,0.8); }
         .hero-btn {
             margin-top: 40px; padding: 15px 35px; border: 1px solid rgba(255,255,255,0.3);
             background: rgba(0,0,0,0.5); backdrop-filter: blur(5px); color: white; text-decoration: none;
@@ -194,18 +186,38 @@
         }
         .hero-btn:hover { background: white; color: black; border-color: white; }
 
+        /* 3. TIMELINE REVISI (MENYATU DENGAN HERO) */
+        #timeline {
+            background-color: var(--bg-black); /* Pastikan sama persis dengan ujung gradasi hero */
+            padding-top: 120px; /* Jarak napas biar ga nabrak */
+        }
         .timeline { position: relative; max-width: 900px; margin: 0 auto; }
-        .timeline::after { content: ''; position: absolute; width: 1px; background-color: #333; top: 0; bottom: 0; left: 50%; margin-left: -0.5px; }
+        .timeline::after { content: ''; position: absolute; width: 1px; background-color: #222; top: 0; bottom: 0; left: 50%; margin-left: -0.5px; } /* Garis lebih samar (#222) */
+        
         .timeline-container { padding: 10px 40px; position: relative; width: 50%; }
         .left { left: 0; text-align: right; }
         .right { left: 50%; text-align: left; }
-        .timeline-content { padding: 20px 30px; background-color: #0a0a0a; border: 1px solid #222; transition: var(--silk-transition); }
-        .timeline-content:hover { border-color: #fff; transform: scale(1.02); }
+        
+        /* Kartu Timeline jadi lebih soft (Glassy) */
+        .timeline-content { 
+            padding: 25px 35px; 
+            background: rgba(20, 20, 20, 0.6); /* Semi transparan */
+            border: 1px solid #1a1a1a; /* Border sangat tipis */
+            backdrop-filter: blur(5px);
+            transition: var(--silk-transition); 
+            border-radius: 4px;
+        }
+        .timeline-content:hover { 
+            border-color: #444; 
+            transform: scale(1.02); 
+            background: rgba(30, 30, 30, 0.8);
+        }
 
         .gallery-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 30px; }
         .polaroid { background: white; padding: 10px 10px 40px 10px; width: 200px; transform: rotate(-3deg); transition: 0.5s; filter: grayscale(100%); }
         .polaroid img { width: 100%; height: 220px; object-fit: cover; }
         .polaroid:hover { transform: scale(1.1) rotate(0deg); filter: grayscale(0%); z-index: 10; box-shadow: 0 0 30px rgba(255,255,255,0.2); }
+        
         .music-layout { display: flex; flex-wrap: wrap; gap: 50px; align-items: center; justify-content: center; width: 100%; max-width: 900px; }
         .spotify-box { flex: 1; min-width: 300px; }
 
@@ -216,10 +228,9 @@
         .why-item:hover .why-img-frame { border-color: white; transform: scale(1.1); }
         .why-item:hover img { filter: grayscale(0%); }
 
-        /* --- BUBBLE GLOSSY --- */
+        /* BUBBLE GLOSSY */
         .jokes-section { overflow: hidden; position: relative; }
         .jokes-container { position: relative; height: 700px; width: 100%; max-width: 1200px; }
-        
         .bubble-glossy {
             position: absolute; width: 130px; height: 130px; border-radius: 50%;
             background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(3px); -webkit-backdrop-filter: blur(3px);
@@ -243,6 +254,7 @@
         #modal-img { max-width: 80vw; max-height: 60vh; border: 1px solid #444; outline: 1px solid #fff; outline-offset: -10px; }
 
         @media (max-width: 600px) {
+            .hero h1 { font-size: 2.5rem; }
             .timeline::after { left: 31px; }
             .timeline-container { width: 100%; padding-left: 70px; padding-right: 25px; }
             .left, .right { left: 0; text-align: left; }
@@ -295,7 +307,8 @@
     <div id="scroll-overlay">
         <div class="ambient-glow"></div>
         <div class="vignette-overlay"></div>
-        <div id="letter-dust-container"></div> <div class="vintage-paper">
+        <div id="letter-dust-container"></div>
+        <div class="vintage-paper">
             <h3 style="margin-bottom: 30px; border-bottom: 1px solid #333; padding-bottom: 15px; font-style: italic;">A Note for You.</h3>
             <div id="typing-text" style="font-family: 'Courier New'; min-height: 100px; line-height: 1.6; font-size: 0.9rem;"></div>
             <br>
@@ -317,7 +330,7 @@
         </section>
 
         <section id="timeline">
-            <h2>The Timeline</h2>
+            <h2 style="margin-bottom: 50px;">The Timeline</h2>
             <div class="timeline">
                 <div class="timeline-container left">
                     <div class="timeline-content hover-cursor-grow" onclick="openModal('t1.jpg', 'The First Encounter')">
@@ -399,7 +412,6 @@
         const surat = "Hai.\n\nSelamat ulang tahun. \n\nSemoga tahun ini membawa ketenangan, kebahagiaan, dan segala hal baik yang pantas kamu dapatkan. \n\nLet's make more memories. \n\n- Yours.";
         const jokes = ["Si Wacana", "Besok Diet", "Terserah", "5 Menit Lagi", "Ganteng Doang", "Macet", "Sekali Lagi", "Hahahaha", "Sabar", "Otw (Kasur)"];
 
-        // Elements
         const loginOverlay = document.getElementById('login-overlay');
         const loginForm = document.getElementById('login-form-container');
         const passInput = document.getElementById('passInput');
@@ -423,10 +435,7 @@
             cursorDot.style.top = `${posY}px`;
             cursorOutline.style.left = `${posX}px`;
             cursorOutline.style.top = `${posY}px`;
-            
-            // Global Update for Bubbles Physics
-            mouseX = posX;
-            mouseY = posY;
+            mouseX = posX; mouseY = posY;
         });
 
         const hoverElements = document.querySelectorAll('a, button, .hover-cursor-grow, .gift-container, input');
@@ -435,7 +444,6 @@
             el.addEventListener('mouseleave', () => document.body.classList.remove('hovering'));
         });
 
-        // LOGIN PARTICLES
         function createParticles() {
             const container = document.getElementById('particles-js');
             for(let i=0; i<30; i++) {
@@ -451,7 +459,6 @@
         }
         createParticles();
 
-        // LETTER PARTICLES (ATMOSPHERE)
         function createLetterDust() {
             const container = document.getElementById('letter-dust-container');
             for(let i=0; i<40; i++) {
@@ -468,7 +475,6 @@
         }
         createLetterDust();
 
-        // LOGIN LOGIC
         function checkPass() {
             const input = passInput.value;
             if (input === PASS) {
@@ -503,7 +509,6 @@
         }
         passInput.addEventListener("keypress", function(event) { if (event.key === "Enter") checkPass(); });
 
-        // SHOW LETTER
         function showLetter() {
             scrollOverlay.style.display = 'flex';
             setTimeout(() => {
@@ -549,7 +554,7 @@
             setTimeout(() => modal.style.display = 'none', 1500);
         }
 
-        // --- BUBBLES PHYSICS UPDATED (MAGNETIC) ---
+        // BUBBLES
         let bubbleElements = [];
         let mouseX = window.innerWidth / 2, mouseY = window.innerHeight / 2;
         
@@ -563,25 +568,17 @@
                 el.className = 'bubble-glossy';
                 el.innerText = joke;
                 container.appendChild(el);
-
                 bubbleElements.push({
-                    el: el,
-                    x: Math.random() * rect.width,
-                    y: Math.random() * rect.height,
-                    vx: 0, vy: 0, 
-                    // REVISI: Offset lebih kecil biar lebih nempel mouse
-                    offsetX: (Math.random() - 0.5) * 80, // Sebelumnya 150
-                    offsetY: (Math.random() - 0.5) * 80,
+                    el: el, x: Math.random() * rect.width, y: Math.random() * rect.height,
+                    vx: 0, vy: 0, offsetX: (Math.random() - 0.5) * 80, offsetY: (Math.random() - 0.5) * 80,
                 });
             });
             animateBubbles();
             setInterval(() => {
                 const spark = document.createElement('div');
                 spark.className = 'particle'; 
-                spark.style.left = Math.random() * 100 + '%';
-                spark.style.top = Math.random() * 100 + '%';
-                section.appendChild(spark);
-                setTimeout(() => spark.remove(), 1500);
+                spark.style.left = Math.random() * 100 + '%'; spark.style.top = Math.random() * 100 + '%';
+                section.appendChild(spark); setTimeout(() => spark.remove(), 1500);
             }, 800);
         }
 
@@ -589,57 +586,38 @@
             const container = document.getElementById('jokes-area');
             if (!container) return; 
             const rect = container.getBoundingClientRect();
-            
-            // Mouse relative to container
             const relativeMouseX = mouseX - rect.left;
             const relativeMouseY = mouseY - rect.top;
 
             bubbleElements.forEach((bubble, i) => {
-                // 1. ATTRACTION (MAGNETIC FORCE UPDATED)
                 const targetX = relativeMouseX + bubble.offsetX;
                 const targetY = relativeMouseY + bubble.offsetY;
-                const dx = targetX - bubble.x;
-                const dy = targetY - bubble.y;
-                
-                // REVISI: Force dikali lebih besar (0.008) biar ngebut ngejar cursor
-                bubble.vx += dx * 0.008; 
-                bubble.vy += dy * 0.008;
+                const dx = targetX - bubble.x; const dy = targetY - bubble.y;
+                bubble.vx += dx * 0.008; bubble.vy += dy * 0.008;
 
-                // 2. REPULSION
                 bubbleElements.forEach((otherBubble, j) => {
                     if (i === j) return; 
-                    const diffX = bubble.x - otherBubble.x;
-                    const diffY = bubble.y - otherBubble.y;
+                    const diffX = bubble.x - otherBubble.x; const diffY = bubble.y - otherBubble.y;
                     const distance = Math.sqrt(diffX*diffX + diffY*diffY);
                     if (distance < 140) {
                         const force = (140 - distance) * 0.05; 
                         const angle = Math.atan2(diffY, diffX);
-                        bubble.vx += Math.cos(angle) * force;
-                        bubble.vy += Math.sin(angle) * force;
+                        bubble.vx += Math.cos(angle) * force; bubble.vy += Math.sin(angle) * force;
                     }
                 });
-
-                // 3. FRICTION (Dampening biar gak getar parah)
-                bubble.vx *= 0.90; 
-                bubble.vy *= 0.90;
-
-                bubble.x += bubble.vx;
-                bubble.y += bubble.vy;
-
-                // Boundaries
+                bubble.vx *= 0.90; bubble.vy *= 0.90;
+                bubble.x += bubble.vx; bubble.y += bubble.vy;
                 if (bubble.x < 0) { bubble.x = 0; bubble.vx *= -1; }
                 if (bubble.x > rect.width - 130) { bubble.x = rect.width - 130; bubble.vx *= -1; }
                 if (bubble.y < 0) { bubble.y = 0; bubble.vy *= -1; }
                 if (bubble.y > rect.height - 130) { bubble.y = rect.height - 130; bubble.vy *= -1; }
-
                 bubble.el.style.transform = `translate(${bubble.x}px, ${bubble.y}px)`;
             });
             requestAnimationFrame(animateBubbles);
         }
 
         function bukaKado() {
-            var duration = 3 * 1000;
-            var end = Date.now() + duration;
+            var duration = 3 * 1000; var end = Date.now() + duration;
             var colors = ['#ffffff', '#8D6E63', '#444444']; 
             (function frame() {
                 confetti({ particleCount: 7, angle: 60, spread: 60, origin: { x: 0 }, colors: colors });
