@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Archive</title>
+    <title>The Archive - Version 23.0</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Poppins:wght@300;400;500;600&family=Courier+Prime&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -171,12 +171,11 @@
             justify-content: center; align-items: center; text-align: center; position: relative;
         }
 
-        /* 2. HERO REVISI (FADE TO BLACK LEBIH HALUS) */
+        /* HERO */
         .hero {
-            /* Perhatikan gradasi di akhir: transparent ke #050505 full di 95% */
             background: linear-gradient(to bottom, rgba(0,0,0,0.4) 0%, rgba(5,5,5,0) 50%, #050505 98%), url('foto.jpg');
             background-size: cover; background-position: center; background-attachment: fixed;
-            border-bottom: none; /* Hilangkan garis keras */
+            border-bottom: none;
         }
         .hero h1 { font-size: 3.5rem; text-shadow: 0 0 30px rgba(0,0,0,0.8); }
         .hero-btn {
@@ -186,23 +185,22 @@
         }
         .hero-btn:hover { background: white; color: black; border-color: white; }
 
-        /* 3. TIMELINE REVISI (MENYATU DENGAN HERO) */
+        /* TIMELINE */
         #timeline {
-            background-color: var(--bg-black); /* Pastikan sama persis dengan ujung gradasi hero */
-            padding-top: 120px; /* Jarak napas biar ga nabrak */
+            background-color: var(--bg-black);
+            padding-top: 120px;
         }
         .timeline { position: relative; max-width: 900px; margin: 0 auto; }
-        .timeline::after { content: ''; position: absolute; width: 1px; background-color: #222; top: 0; bottom: 0; left: 50%; margin-left: -0.5px; } /* Garis lebih samar (#222) */
+        .timeline::after { content: ''; position: absolute; width: 1px; background-color: #222; top: 0; bottom: 0; left: 50%; margin-left: -0.5px; }
         
         .timeline-container { padding: 10px 40px; position: relative; width: 50%; }
         .left { left: 0; text-align: right; }
         .right { left: 50%; text-align: left; }
         
-        /* Kartu Timeline jadi lebih soft (Glassy) */
         .timeline-content { 
             padding: 25px 35px; 
-            background: rgba(20, 20, 20, 0.6); /* Semi transparan */
-            border: 1px solid #1a1a1a; /* Border sangat tipis */
+            background: rgba(20, 20, 20, 0.6);
+            border: 1px solid #1a1a1a;
             backdrop-filter: blur(5px);
             transition: var(--silk-transition); 
             border-radius: 4px;
@@ -284,18 +282,18 @@
             RESTRICTED AREA
         </h2>
         <h1 style="margin: 25px 0 10px 0;">The Archive.</h1>
-        <p style="margin: 0 0 30px 0; font-style: italic; font-size: 0.8rem; color: #666;">"Nur für ein Herz."</p>
+        <p style="margin: 0 0 30px 0; font-style: italic; font-size: 0.8rem; color: #666;">"Only one heart has the key."</p>
 
         <div id="login-form-container" style="display: flex; flex-direction: column; align-items: center; transition: 1s;">
             <input type="password" id="passInput" class="login-input" placeholder="CODE">
-            <p style="margin-top: 15px; font-size: 0.7rem; color: #444;">Hint: The year our universe brought us together.</p>
+            <p style="margin-top: 15px; font-size: 0.7rem; color: #444;">Hint: Tanggal di mana semesta mempertemukan kita 🌙</p>
             <button class="login-btn hover-text-swap" data-hover="Ready to relive memories?" onclick="checkPass()">ENTER ARCHIVE</button>
             <p id="errorMsg" style="color: #8D6E63; display: none; margin-top: 25px; font-size: 0.8rem; font-style: italic;">Hmm… coba ingat lagi momen penting kita 🤍</p>
         </div>
 
-        <div id="welcome-text">Willkommen, Schatz<3</div>
+        <div id="welcome-text">Welcome back, my favorite person.</div>
         <div id="access-msg">ACCESS GRANTED</div>
-        <div class="archive-meta">Archiv seit · 2024<br>Status: geschützt</div>
+        <div class="archive-meta">ARCHIVE CREATED: 2026.02.14<br>STATUS: LOCKED</div>
     </div>
 
     <div id="echo-container">
@@ -309,7 +307,7 @@
         <div class="vignette-overlay"></div>
         <div id="letter-dust-container"></div>
         <div class="vintage-paper">
-            <h3 style="margin-bottom: 30px; border-bottom: 1px solid #333; padding-bottom: 15px; font-style: italic;">A Note for You.</h3>
+            <h3 style="margin-bottom: 30px; border-bottom: 1px solid #333; padding-bottom: 15px; font-style: italic;">Version 23.0 — Wiratama</h3>
             <div id="typing-text" style="font-family: 'Courier New'; min-height: 100px; line-height: 1.6; font-size: 0.9rem;"></div>
             <br>
             <button class="login-btn" onclick="enterSite()" style="margin-top: 40px; border-color: #333; background: transparent; color: #888; cursor: pointer;">Begin Journey</button>
@@ -402,14 +400,16 @@
         </section>
 
         <footer>
-            <p>2026 BIRTHDAY EDITION • CURATED WITH LOVE • BY [NAMA KAMU]</p>
+            <p>2026 BIRTHDAY EDITION • CURATED WITH LOVE • BY PIDA</p>
         </footer>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
     <script>
         const PASS = "2024";
-        const surat = "Hai.\n\nSelamat ulang tahun. \n\nSemoga tahun ini membawa ketenangan, kebahagiaan, dan segala hal baik yang pantas kamu dapatkan. \n\nLet's make more memories. \n\n- Yours.";
+        // SURAT UPDATED
+        const surat = "Happy Birthday, Wilaa!!\n\nWeird how this makes sense. I’m really proud of the life you’re building and the effort you still give us, even when you’re tired. I notice that.\n\nI just want this year to feel lighter for you — more real happiness, a calmer mind, and the wins you’ve been working for.\n\nAlso… if it wasn’t for you, I probably wouldn’t know how to make this website... and you wouldn’t be reading this right now, so yeah, look what you did.\n\nIch Liebe Dich.\n\n— Pida 🤍";
+        
         const jokes = ["Si Wacana", "Besok Diet", "Terserah", "5 Menit Lagi", "Ganteng Doang", "Macet", "Sekali Lagi", "Hahahaha", "Sabar", "Otw (Kasur)"];
 
         const loginOverlay = document.getElementById('login-overlay');
@@ -629,7 +629,3 @@
     </script>
 </body>
 </html>
-
-
-
-
