@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Archive</title>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Poppins:wght@300;400;500;600&family=Courier+Prime&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
@@ -12,12 +13,11 @@
             --bg-black: #050505;
             --text-white: #f5f5f5;
             --text-gray: #888888;
-            --border-classy: #333;
-            --gift-vintage: #8D6E63; 
+            --accent-gold: #C6A87C; /* Warna elegan untuk highlight */
             --silk-transition: all 1.2s cubic-bezier(0.19, 1, 0.22, 1);
         }
 
-        * { box-sizing: border-box; cursor: default; }
+        * { box-sizing: border-box; cursor: none; /* HIDE DEFAULT CURSOR */ }
 
         body {
             margin: 0;
@@ -30,216 +30,204 @@
 
         @keyframes fadeInPage { to { opacity: 1; } }
 
-        /* TYPOGRAPHY */
-        h1, h2, h3 { font-family: 'Playfair Display', serif; font-weight: 400; letter-spacing: 1px; }
-        h1 { font-size: 3.5rem; line-height: 1.1; margin: 0; }
-        h2 { font-size: 2.2rem; border-bottom: 1px solid var(--border-classy); padding-bottom: 20px; margin-bottom: 50px; display: inline-block; font-style: italic; }
-        p { color: var(--text-gray); font-weight: 300; line-height: 1.8; font-size: 0.9rem; }
+        /* --- 9. CUSTOM CURSOR --- */
+        #cursor-dot, #cursor-outline {
+            position: fixed; top: 0; left: 0;
+            transform: translate(-50%, -50%);
+            border-radius: 50%; z-index: 9999; pointer-events: none;
+        }
+        #cursor-dot {
+            width: 8px; height: 8px; background-color: white;
+            box-shadow: 0 0 10px rgba(255,255,255,0.8);
+        }
+        #cursor-outline {
+            width: 40px; height: 40px; border: 1px solid rgba(255, 255, 255, 0.5);
+            transition: width 0.2s, height 0.2s, background-color 0.2s;
+        }
+        /* Hover Effect State */
+        body.hovering #cursor-outline {
+            width: 60px; height: 60px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-color: white;
+            backdrop-filter: blur(2px);
+        }
 
-        /* --- 1. LOGIN & ECHO --- */
+        /* TYPOGRAPHY UTILS */
+        h1, h2, h3 { font-family: 'Playfair Display', serif; }
+        
+        /* --- 1. LOGIN & INTRO --- */
         #login-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: var(--bg-black); z-index: 5000;
+            background: radial-gradient(circle at center, #111 0%, #000 100%);
+            z-index: 5000;
             display: flex; flex-direction: column; justify-content: center; align-items: center;
             transition: var(--silk-transition);
         }
-        .login-input {
-            background: transparent; border: none; border-bottom: 1px solid #444;
-            color: white; font-family: 'Playfair Display'; font-size: 2rem;
-            text-align: center; padding: 10px; margin-top: 20px; outline: none; width: 200px; letter-spacing: 5px;
-        }
-        .login-btn {
-            margin-top: 40px; background: white; color: black; padding: 12px 40px;
-            border: 1px solid white; border-radius: 50px; font-family: 'Poppins'; font-size: 0.8rem;
-            letter-spacing: 2px; cursor: pointer; transition: 0.5s ease; text-transform: uppercase;
-        }
-        .login-btn:hover { background: black; color: white; letter-spacing: 4px; }
 
-        /* ECHO EFFECT */
+        /* 4. BACKGROUND PARTICLES (DUST) */
+        .particle {
+            position: absolute; background: white; border-radius: 50%;
+            opacity: 0; animation: floatUp linear infinite; pointer-events: none;
+        }
+        @keyframes floatUp {
+            0% { transform: translateY(100vh) scale(0); opacity: 0; }
+            20% { opacity: 0.5; }
+            80% { opacity: 0.5; }
+            100% { transform: translateY(-10vh) scale(1); opacity: 0; }
+        }
+
+        /* HOVER TEXT EFFECT (RESTRICTED) */
+        .hover-text-swap {
+            position: relative; display: inline-block; cursor: none;
+            transition: 0.5s;
+        }
+        .hover-text-swap::after {
+            content: attr(data-hover);
+            position: absolute; left: 0; top: 0; width: 100%; opacity: 0;
+            color: var(--accent-gold); transition: 0.5s; text-align: center;
+        }
+        .hover-text-swap:hover { color: transparent; }
+        .hover-text-swap:hover::after { opacity: 1; }
+
+        .login-input {
+            background: transparent; border: none; border-bottom: 1px solid #333;
+            color: white; font-family: 'Playfair Display'; font-size: 2rem;
+            text-align: center; padding: 10px; margin-top: 30px; outline: none; width: 250px; letter-spacing: 5px;
+            transition: 0.5s;
+        }
+        /* 3. TYPE GLOW EFFECT */
+        .login-input:focus, .login-input:not(:placeholder-shown) {
+            border-bottom-color: white;
+            text-shadow: 0 0 15px rgba(255,255,255,0.6);
+        }
+        
+        .login-btn {
+            margin-top: 40px; background: transparent; color: #888; padding: 12px 40px;
+            border: 1px solid #333; border-radius: 50px; font-family: 'Poppins'; font-size: 0.7rem;
+            letter-spacing: 2px; transition: 0.5s ease; text-transform: uppercase;
+            position: relative; overflow: hidden;
+        }
+        .login-btn:hover { background: white; color: black; border-color: white; box-shadow: 0 0 20px rgba(255,255,255,0.2); }
+
+        /* SHAKE ANIMATION (ERROR) */
+        .shake { animation: shake 0.4s cubic-bezier(.36,.07,.19,.97) both; border-bottom-color: #8D6E63 !important; }
+        @keyframes shake { 
+            10%, 90% { transform: translate3d(-1px, 0, 0); }
+            20%, 80% { transform: translate3d(2px, 0, 0); }
+            30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
+            40%, 60% { transform: translate3d(4px, 0, 0); }
+        }
+
+        /* 5. ACCESS GRANTED TEXT */
+        #access-msg {
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            font-family: 'Courier Prime', monospace; color: #0f0; 
+            font-size: 2rem; letter-spacing: 5px; opacity: 0; pointer-events: none;
+            text-shadow: 0 0 10px #0f0;
+        }
+        #welcome-text {
+            font-family: 'Playfair Display'; font-style: italic; font-size: 1.5rem; margin-top: 20px;
+            opacity: 0; transition: 1s;
+        }
+
+        /* 8. TIMESTAMP FOOTER */
+        .archive-meta {
+            position: absolute; bottom: 30px; right: 30px;
+            font-family: 'Courier Prime', monospace; font-size: 0.6rem; color: #444;
+            letter-spacing: 1px;
+        }
+
+        /* --- EXISTING STYLES (MAIN CONTENT) --- */
+        /* ECHO */
         #echo-container {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             z-index: 4500; pointer-events: none; display: none;
             justify-content: center; align-items: center; overflow: hidden;
         }
-        .echo-img {
-            position: absolute; height: 60vh; opacity: 0; filter: grayscale(100%);
-            transition: all 1s ease-out;
-        }
-        @keyframes echoPulse {
-            0% { transform: scale(0.8); opacity: 0; }
-            50% { opacity: 0.8; }
-            100% { transform: scale(2); opacity: 0; filter: blur(10px); }
-        }
+        .echo-img { position: absolute; height: 60vh; opacity: 0; filter: grayscale(100%); transition: all 1s ease-out; }
         .echo-active { animation: echoPulse 2s cubic-bezier(0.165, 0.84, 0.44, 1) forwards; }
+        @keyframes echoPulse { 0% { transform: scale(0.8); opacity: 0; } 50% { opacity: 0.8; } 100% { transform: scale(2); opacity: 0; filter: blur(10px); } }
 
-        /* --- 2. SURAT --- */
+        /* SURAT */
         #scroll-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: var(--bg-black); z-index: 4000; display: none;
             justify-content: center; align-items: center; opacity: 0; transition: var(--silk-transition);
         }
         .vintage-paper {
-            width: 80%; max-width: 600px; padding: 50px;
-            background: #0e0e0e; border: 1px solid #222;
-            color: #ccc; box-shadow: 0 0 60px rgba(0,0,0,0.8);
-            transform: translateY(20px); transition: var(--silk-transition);
+            width: 80%; max-width: 600px; padding: 50px; background: #0e0e0e; border: 1px solid #222;
+            color: #ccc; box-shadow: 0 0 60px rgba(0,0,0,0.8); transform: translateY(20px); transition: var(--silk-transition);
         }
         .show-paper { opacity: 1; transform: translateY(0); }
 
-        /* --- 3. MAIN CONTENT --- */
+        /* MAIN */
         #main-content { display: none; opacity: 0; transition: opacity 3s ease-in-out; }
-
         section {
-            min-height: 100vh; padding: 80px 20px;
-            display: flex; flex-direction: column; justify-content: center; align-items: center;
-            text-align: center; border-bottom: 1px solid #111; position: relative;
+            min-height: 100vh; padding: 80px 20px; display: flex; flex-direction: column;
+            justify-content: center; align-items: center; text-align: center; border-bottom: 1px solid #111; position: relative;
         }
-
-        /* HERO */
         .hero {
             background: linear-gradient(to bottom, rgba(0,0,0,0.5), #050505), url('foto.jpg');
             background-size: cover; background-position: center; background-attachment: fixed;
         }
         .hero-btn {
             margin-top: 40px; padding: 15px 35px; border: 1px solid rgba(255,255,255,0.3);
-            background: rgba(0,0,0,0.5); backdrop-filter: blur(5px);
-            color: white; text-decoration: none; font-size: 0.8rem; letter-spacing: 3px;
-            transition: var(--silk-transition); border-radius: 30px;
+            background: rgba(0,0,0,0.5); backdrop-filter: blur(5px); color: white; text-decoration: none;
+            font-size: 0.8rem; letter-spacing: 3px; transition: var(--silk-transition); border-radius: 30px;
         }
         .hero-btn:hover { background: white; color: black; border-color: white; }
 
-        /* TIMELINE (ZIGZAG) */
+        /* TIMELINE */
         .timeline { position: relative; max-width: 900px; margin: 0 auto; }
-        .timeline::after {
-            content: ''; position: absolute; width: 1px; background-color: #333;
-            top: 0; bottom: 0; left: 50%; margin-left: -0.5px;
-        }
-        .timeline-container {
-            padding: 10px 40px; position: relative; background-color: inherit; width: 50%;
-            box-sizing: border-box;
-        }
+        .timeline::after { content: ''; position: absolute; width: 1px; background-color: #333; top: 0; bottom: 0; left: 50%; margin-left: -0.5px; }
+        .timeline-container { padding: 10px 40px; position: relative; width: 50%; }
         .left { left: 0; text-align: right; }
         .right { left: 50%; text-align: left; }
-        
-        .timeline-content {
-            padding: 20px 30px; background-color: #0a0a0a; position: relative;
-            border: 1px solid #222; transition: var(--silk-transition); cursor: pointer;
-        }
+        .timeline-content { padding: 20px 30px; background-color: #0a0a0a; border: 1px solid #222; transition: var(--silk-transition); }
         .timeline-content:hover { border-color: #fff; transform: scale(1.02); }
-        .timeline-content h3 { font-size: 1.2rem; margin-bottom: 5px; }
 
-        /* MODAL */
-        #timeline-modal {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.95); z-index: 6000; display: none;
-            justify-content: center; align-items: center; flex-direction: column;
-            opacity: 0; transition: var(--silk-transition);
-        }
-        #modal-img { max-width: 80vw; max-height: 60vh; border: 1px solid #444; outline: 1px solid #fff; outline-offset: -10px; }
-
-        /* GALLERY POLAROID */
+        /* GALLERY & MUSIC */
         .gallery-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 30px; }
-        .polaroid {
-            background: white; padding: 10px 10px 40px 10px; width: 200px;
-            transform: rotate(-3deg); transition: 0.5s ease; filter: grayscale(100%);
-        }
+        .polaroid { background: white; padding: 10px 10px 40px 10px; width: 200px; transform: rotate(-3deg); transition: 0.5s; filter: grayscale(100%); }
         .polaroid img { width: 100%; height: 220px; object-fit: cover; }
         .polaroid:hover { transform: scale(1.1) rotate(0deg); filter: grayscale(0%); z-index: 10; box-shadow: 0 0 30px rgba(255,255,255,0.2); }
-        .polaroid:nth-child(even) { transform: rotate(3deg); }
+        .music-layout { display: flex; flex-wrap: wrap; gap: 50px; align-items: center; justify-content: center; width: 100%; max-width: 900px; }
+        .spotify-box { flex: 1; min-width: 300px; }
 
-        /* WHY YOU (ROUND) */
-        .why-grid {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-            gap: 40px; width: 100%; max-width: 800px; margin-top: 30px;
-        }
+        /* WHY YOU */
+        .why-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); gap: 40px; width: 100%; max-width: 800px; margin-top: 30px; }
         .why-item { display: flex; flex-direction: column; align-items: center; transition: 0.5s; }
-        .why-img-frame {
-            width: 90px; height: 90px; border-radius: 50%; overflow: hidden;
-            border: 1px solid #333; padding: 4px; margin-bottom: 15px; transition: 0.5s;
-        }
+        .why-img-frame { width: 90px; height: 90px; border-radius: 50%; overflow: hidden; border: 1px solid #333; padding: 4px; margin-bottom: 15px; transition: 0.5s; }
         .why-img-frame img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; filter: grayscale(100%); }
         .why-item:hover .why-img-frame { border-color: white; transform: scale(1.1); }
         .why-item:hover img { filter: grayscale(0%); }
 
-        /* MUSIC SECTION */
-        .music-layout {
-            display: flex; flex-wrap: wrap; gap: 50px; align-items: center; justify-content: center; width: 100%; max-width: 900px;
-        }
-        .spotify-box { flex: 1; min-width: 300px; }
-        
-        /* --- NEW: HIGH GLOSS BUBBLES --- */
+        /* --- BUBBLE GLOSSY (FINAL VERSION) --- */
         .jokes-section { overflow: hidden; position: relative; }
         .jokes-container { position: relative; height: 700px; width: 100%; max-width: 1200px; }
         
         .bubble-glossy {
-            position: absolute;
-            width: 130px; height: 130px;
-            border-radius: 50%;
-            
-            /* BASE MATERIAL: Clear Transparent */
-            background: rgba(255, 255, 255, 0.05);
-            /* Blur secukupnya agar text terbaca, tapi jgn terlalu blur biar gak 'matte' */
-            backdrop-filter: blur(3px); 
-            -webkit-backdrop-filter: blur(3px);
-
-            /* BORDERS: Tajam & High Contrast */
-            border: 1px solid rgba(255, 255, 255, 0.2); /* Base border */
-            border-top: 1px solid rgba(255, 255, 255, 0.8); /* Highlight Atas Terang */
-            border-bottom: 1px solid rgba(255, 255, 255, 0.5); /* Highlight Bawah */
-
-            /* SHADOWS: Inner Glow & Depth */
-            box-shadow: 
-                inset 0 0 20px rgba(255, 255, 255, 0.1), /* Glow halus di dalam */
-                0 10px 20px rgba(0, 0, 0, 0.3); /* Shadow bayangan jatuh */
-            
-            color: white;
-            /* Text shadow penting biar kebaca di background bening */
-            text-shadow: 0 2px 5px rgba(0,0,0,0.9); 
-            
+            position: absolute; width: 130px; height: 130px; border-radius: 50%;
+            background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(3px); -webkit-backdrop-filter: blur(3px);
+            border: 1px solid rgba(255, 255, 255, 0.2); border-top: 1px solid rgba(255, 255, 255, 0.8); border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+            box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.1), 0 10px 20px rgba(0, 0, 0, 0.3);
+            color: white; text-shadow: 0 2px 5px rgba(0,0,0,0.9);
             display: flex; justify-content: center; align-items: center; text-align: center;
-            font-size: 0.85rem; letter-spacing: 1px; padding: 15px; font-weight: 600;
-            will-change: transform; 
-            z-index: 2;
+            font-size: 0.85rem; letter-spacing: 1px; padding: 15px; font-weight: 600; will-change: transform; z-index: 2;
         }
-
-        /* THE SHINE (PANTULAN CAHAYA LAMPU) - Biar Mengkilat */
         .bubble-glossy::after {
-            content: '';
-            position: absolute;
-            top: 15%; left: 18%;
-            width: 35%; height: 20%;
-            border-radius: 50%;
+            content: ''; position: absolute; top: 15%; left: 18%; width: 35%; height: 20%; border-radius: 50%;
             background: radial-gradient(ellipse at center, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0) 70%);
-            transform: rotate(-45deg);
-            filter: blur(1px); /* Blur dikit biar nyatu tapi tetep tajam */
-            opacity: 0.9;
-            pointer-events: none;
+            transform: rotate(-45deg); filter: blur(1px); opacity: 0.9; pointer-events: none;
         }
 
-        /* SECONDARY RIM LIGHT (Pantulan Bawah) */
-        .bubble-glossy::before {
-            content: '';
-            position: absolute;
-            bottom: 10%; right: 15%;
-            width: 60%; height: 15%;
-            border-radius: 50%;
-            background: radial-gradient(ellipse at center, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0) 70%);
-            transform: rotate(-45deg);
-            filter: blur(5px);
-            pointer-events: none;
-        }
-
-        .spark {
-            position: absolute; width: 2px; height: 2px; background: white; border-radius: 50%;
-            pointer-events: none; animation: sparkFade 1.5s linear forwards;
-        }
-        @keyframes sparkFade { 0% { opacity: 1; transform: scale(1); } 100% { opacity: 0; transform: scale(0); } }
-
-        /* GIFT */
         .gift-container { font-size: 4rem; cursor: pointer; transition: 0.5s; color: var(--gift-vintage); }
         .gift-container:hover { transform: scale(1.1) rotate(5deg); text-shadow: 0 0 30px rgba(141, 110, 99, 0.5); }
-
         footer { padding: 50px; border-top: 1px solid #111; font-size: 0.7rem; letter-spacing: 2px; color: #444; }
+
+        /* MODAL */
+        #timeline-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 6000; display: none; justify-content: center; align-items: center; flex-direction: column; opacity: 0; transition: var(--silk-transition); }
+        #modal-img { max-width: 80vw; max-height: 60vh; border: 1px solid #444; outline: 1px solid #fff; outline-offset: -10px; }
 
         @media (max-width: 600px) {
             .timeline::after { left: 31px; }
@@ -248,10 +236,15 @@
             .music-layout { flex-direction: column; }
             .bubble-glossy { width: 90px; height: 90px; font-size: 0.65rem; } 
             .jokes-container { height: 500px; }
+            #cursor-dot, #cursor-outline { display: none; } /* Disable custom cursor on mobile */
+            * { cursor: auto; }
         }
     </style>
 </head>
 <body>
+
+    <div id="cursor-dot"></div>
+    <div id="cursor-outline"></div>
 
     <audio id="sfx-typing" loop>
         <source src="https://assets.mixkit.co/sfx/preview/mixkit-mechanical-keyboard-typing-1393.mp3" type="audio/mpeg">
@@ -261,11 +254,42 @@
     </audio>
 
     <div id="login-overlay">
-        <h2 style="border:none; margin: 0; font-size: 1rem; letter-spacing: 5px; opacity: 0.7;">RESTRICTED</h2>
-        <h1 style="margin: 20px 0;">The Archive.</h1>
-        <input type="password" id="passInput" class="login-input" placeholder="CODE">
-        <button class="login-btn" onclick="checkPass()">ENTER</button>
-        <p id="errorMsg" style="color: #666; display: none; margin-top: 20px; font-size: 0.8rem;">INCORRECT CODE</p>
+        <div id="particles-js"></div>
+
+        <h2 class="hover-text-swap" data-hover="But not for you 🤍" style="border:none; margin: 0; font-size: 0.9rem; letter-spacing: 6px; opacity: 0.6; color: #888;">
+            RESTRICTED AREA
+        </h2>
+        
+        <h1 style="margin: 25px 0 10px 0;">The Archive.</h1>
+        
+        <p style="margin: 0 0 30px 0; font-style: italic; font-size: 0.8rem; color: #666;">
+            "Only one heart has the key."
+        </p>
+
+        <div id="login-form-container" style="display: flex; flex-direction: column; align-items: center; transition: 1s;">
+            <input type="password" id="passInput" class="login-input" placeholder="CODE">
+            
+            <p style="margin-top: 15px; font-size: 0.7rem; color: #444;">
+                Hint: Tanggal di mana semesta mempertemukan kita 🌙
+            </p>
+
+            <button class="login-btn hover-text-swap" data-hover="Ready to relive memories?" onclick="checkPass()">
+                ENTER ARCHIVE
+            </button>
+
+            <p id="errorMsg" style="color: #8D6E63; display: none; margin-top: 25px; font-size: 0.8rem; font-style: italic;">
+                Hmm… coba ingat lagi momen penting kita 🤍
+            </p>
+        </div>
+
+        <div id="welcome-text">Welcome back, my favorite person.</div>
+        
+        <div id="access-msg">ACCESS GRANTED</div>
+
+        <div class="archive-meta">
+            ARCHIVE CREATED: 2026.02.14<br>
+            STATUS: LOCKED
+        </div>
     </div>
 
     <div id="echo-container">
@@ -279,7 +303,7 @@
             <h3 style="margin-bottom: 30px; border-bottom: 1px solid #333; padding-bottom: 15px; font-style: italic;">A Note for You.</h3>
             <div id="typing-text" style="font-family: 'Courier New'; min-height: 100px; line-height: 1.6; font-size: 0.9rem;"></div>
             <br>
-            <button class="login-btn" onclick="enterSite()" style="margin-top: 40px; border-color: #333; background: transparent; color: #888;">Begin Journey</button>
+            <button class="login-btn" onclick="enterSite()" style="margin-top: 40px; border-color: #333; background: transparent; color: #888; cursor: pointer;">Begin Journey</button>
         </div>
     </div>
 
@@ -290,9 +314,8 @@
     </div>
 
     <div id="main-content">
-        
         <section class="hero">
-            <h1>Happy Birthday,<br>My Wiratama.</h1>
+            <h1>Happy Birthday,<br>My Soul.</h1>
             <p style="margin-top: 20px;">Welcome to your gallery.</p>
             <a href="#timeline" class="hero-btn">Scroll Down</a>
         </section>
@@ -301,19 +324,19 @@
             <h2>The Timeline</h2>
             <div class="timeline">
                 <div class="timeline-container left">
-                    <div class="timeline-content" onclick="openModal('t1.jpg', 'The First Encounter')">
+                    <div class="timeline-content hover-cursor-grow" onclick="openModal('t1.jpg', 'The First Encounter')">
                         <h3>Chapter I.</h3>
                         <p>Where it all started. Click to view.</p>
                     </div>
                 </div>
                 <div class="timeline-container right">
-                    <div class="timeline-content" onclick="openModal('t2.jpg', 'First Date Memories')">
+                    <div class="timeline-content hover-cursor-grow" onclick="openModal('t2.jpg', 'First Date Memories')">
                         <h3>Chapter II.</h3>
                         <p>The day I knew you were the one.</p>
                     </div>
                 </div>
                 <div class="timeline-container left">
-                    <div class="timeline-content" onclick="openModal('t3.jpg', 'Unforgettable Chaos')">
+                    <div class="timeline-content hover-cursor-grow" onclick="openModal('t3.jpg', 'Unforgettable Chaos')">
                         <h3>Chapter III.</h3>
                         <p>Just us being us.</p>
                     </div>
@@ -358,14 +381,13 @@
 
         <section class="jokes-section" id="jokes-section">
             <h2>Inside Jokes</h2>
-            <div class="jokes-container" id="jokes-area">
-                </div>
+            <div class="jokes-container" id="jokes-area"></div>
         </section>
 
         <section>
             <h2>A Gift.</h2>
             <p>Open it, carefully.</p>
-            <div class="gift-container" onclick="bukaKado()">
+            <div class="gift-container hover-cursor-grow" onclick="bukaKado()">
                 <i class="fa-solid fa-gift"></i>
             </div>
         </section>
@@ -373,62 +395,127 @@
         <footer>
             <p>2026 BIRTHDAY EDITION • CURATED WITH LOVE • BY [NAMA KAMU]</p>
         </footer>
-
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
     <script>
         const PASS = "2024";
         const surat = "Hai.\n\nSelamat ulang tahun. \n\nSemoga tahun ini membawa ketenangan, kebahagiaan, dan segala hal baik yang pantas kamu dapatkan. \n\nLet's make more memories. \n\n- Yours.";
-        
-        const jokes = [
-            "Si Wacana", "Besok Diet", "Terserah", "5 Menit Lagi",
-            "Ganteng Doang", "Macet", "Sekali Lagi", "Hahahaha", "Sabar", "Otw (Kasur)"
-        ];
+        const jokes = ["Si Wacana", "Besok Diet", "Terserah", "5 Menit Lagi", "Ganteng Doang", "Macet", "Sekali Lagi", "Hahahaha", "Sabar", "Otw (Kasur)"];
 
         // Elements
         const loginOverlay = document.getElementById('login-overlay');
+        const loginForm = document.getElementById('login-form-container');
+        const passInput = document.getElementById('passInput');
+        const errorMsg = document.getElementById('errorMsg');
+        const welcomeText = document.getElementById('welcome-text');
+        const accessMsg = document.getElementById('access-msg');
         const echoContainer = document.getElementById('echo-container');
         const scrollOverlay = document.getElementById('scroll-overlay');
         const mainContent = document.getElementById('main-content');
         const sfxTyping = document.getElementById('sfx-typing');
         const laguBg = document.getElementById('lagu-bg');
 
-        // Variables for Physics
-        let mouseX = window.innerWidth / 2;
-        let mouseY = window.innerHeight / 2;
-        let bubbleElements = [];
-
-        // Track Mouse
-        document.addEventListener('mousemove', (e) => {
-            mouseX = e.clientX;
-            mouseY = e.clientY;
+        // --- 9. CUSTOM CURSOR LOGIC ---
+        const cursorDot = document.getElementById('cursor-dot');
+        const cursorOutline = document.getElementById('cursor-outline');
+        
+        window.addEventListener('mousemove', function(e) {
+            const posX = e.clientX;
+            const posY = e.clientY;
+            
+            // Dot follows instantly
+            cursorDot.style.left = `${posX}px`;
+            cursorDot.style.top = `${posY}px`;
+            
+            // Outline follows with slight delay (CSS transition handles smoothness)
+            cursorOutline.style.left = `${posX}px`;
+            cursorOutline.style.top = `${posY}px`;
         });
 
-        // 1. CHECK PASS & ECHO EFFECT
-        function checkPass() {
-            const input = document.getElementById('passInput').value;
-            if (input === PASS) {
-                loginOverlay.style.opacity = '0';
-                setTimeout(() => { loginOverlay.style.display = 'none'; }, 1500);
+        // Add hover effect for links and buttons
+        const hoverElements = document.querySelectorAll('a, button, .hover-cursor-grow, .gift-container, input');
+        hoverElements.forEach(el => {
+            el.addEventListener('mouseenter', () => document.body.classList.add('hovering'));
+            el.addEventListener('mouseleave', () => document.body.classList.remove('hovering'));
+        });
 
-                echoContainer.style.display = 'flex';
-                document.getElementById('echo1').classList.add('echo-active');
-                setTimeout(() => document.getElementById('echo2').classList.add('echo-active'), 200);
-                setTimeout(() => document.getElementById('echo3').classList.add('echo-active'), 400);
-
-                setTimeout(() => {
-                    echoContainer.style.opacity = '0';
-                    setTimeout(() => {
-                        echoContainer.style.display = 'none';
-                        showLetter();
-                    }, 1000);
-                }, 2500); 
-
-            } else {
-                document.getElementById('errorMsg').style.display = 'block';
+        // --- 4. PARTICLE GENERATOR ---
+        function createParticles() {
+            const container = document.getElementById('particles-js');
+            for(let i=0; i<30; i++) {
+                let p = document.createElement('div');
+                p.className = 'particle';
+                p.style.left = Math.random() * 100 + 'vw';
+                p.style.width = (Math.random() * 3) + 'px';
+                p.style.height = p.style.width;
+                p.style.animationDuration = (Math.random() * 5 + 5) + 's';
+                p.style.animationDelay = (Math.random() * 5) + 's';
+                container.appendChild(p);
             }
         }
+        createParticles();
+
+        // 1. CHECK PASS & ANIMATIONS
+        function checkPass() {
+            const input = passInput.value;
+            if (input === PASS) {
+                // SUCCESS SEQUENCE
+                errorMsg.style.display = 'none';
+                
+                // 1. Hide Form smoothly
+                loginForm.style.opacity = '0';
+                setTimeout(() => loginForm.style.display = 'none', 1000);
+
+                // 2. Show Welcome Text
+                setTimeout(() => {
+                    welcomeText.style.opacity = '1';
+                }, 500);
+
+                // 3. Show Access Granted & Proceed
+                setTimeout(() => {
+                    welcomeText.style.opacity = '0';
+                    accessMsg.style.opacity = '1';
+                    
+                    // SFX Whoosh if possible (using simple fake browser beep logic is hard, better relying on visual)
+                    // Transition to Echo
+                    setTimeout(() => {
+                        loginOverlay.style.opacity = '0';
+                        setTimeout(() => { loginOverlay.style.display = 'none'; }, 1500);
+
+                        echoContainer.style.display = 'flex';
+                        document.getElementById('echo1').classList.add('echo-active');
+                        setTimeout(() => document.getElementById('echo2').classList.add('echo-active'), 200);
+                        setTimeout(() => document.getElementById('echo3').classList.add('echo-active'), 400);
+
+                        setTimeout(() => {
+                            echoContainer.style.opacity = '0';
+                            setTimeout(() => {
+                                echoContainer.style.display = 'none';
+                                showLetter();
+                            }, 1000);
+                        }, 2500);
+                    }, 2000);
+
+                }, 2500);
+
+            } else {
+                // ERROR SEQUENCE
+                passInput.classList.add('shake');
+                errorMsg.style.display = 'block';
+                setTimeout(() => {
+                    passInput.classList.remove('shake');
+                    passInput.value = '';
+                }, 500);
+            }
+        }
+
+        // Listener for Enter Key
+        passInput.addEventListener("keypress", function(event) {
+            if (event.key === "Enter") {
+                checkPass();
+            }
+        });
 
         // 2. SHOW LETTER
         function showLetter() {
@@ -440,7 +527,6 @@
             }, 100);
         }
 
-        // 3. TYPEWRITER
         let i = 0;
         function typeWriter() {
             sfxTyping.play();
@@ -453,7 +539,6 @@
             }
         }
 
-        // 4. ENTER SITE
         function enterSite() {
             scrollOverlay.style.opacity = '0';
             laguBg.play();
@@ -465,7 +550,6 @@
             }, 1500);
         }
 
-        // 5. MODAL & TIMELINE
         function openModal(imgSrc, descText) {
             const modal = document.getElementById('timeline-modal');
             modal.style.display = 'flex';
@@ -479,15 +563,18 @@
             setTimeout(() => modal.style.display = 'none', 1500);
         }
 
-        // 6. --- HIGH GLOSS PHYSICS LOGIC ---
+        // --- GLOSSY BUBBLES PHYSICS ---
+        let bubbleElements = [];
+        let mouseX = window.innerWidth / 2, mouseY = window.innerHeight / 2;
+        
         function initJokes() {
             const container = document.getElementById('jokes-area');
             const section = document.getElementById('jokes-section');
             const rect = container.getBoundingClientRect();
             
-            jokes.forEach((joke, index) => {
+            jokes.forEach((joke) => {
                 const el = document.createElement('div');
-                el.className = 'bubble-glossy'; // Class Updated
+                el.className = 'bubble-glossy';
                 el.innerText = joke;
                 container.appendChild(el);
 
@@ -495,19 +582,15 @@
                     el: el,
                     x: Math.random() * rect.width,
                     y: Math.random() * rect.height,
-                    vx: 0, 
-                    vy: 0, 
-                    offsetX: (Math.random() - 0.5) * 150, // Slightly bigger random range 
+                    vx: 0, vy: 0, 
+                    offsetX: (Math.random() - 0.5) * 150, 
                     offsetY: (Math.random() - 0.5) * 150,
                 });
             });
-
             animateBubbles();
-
-            // Sparks Effect
             setInterval(() => {
                 const spark = document.createElement('div');
-                spark.className = 'spark';
+                spark.className = 'particle'; 
                 spark.style.left = Math.random() * 100 + '%';
                 spark.style.top = Math.random() * 100 + '%';
                 section.appendChild(spark);
@@ -519,48 +602,35 @@
             const container = document.getElementById('jokes-area');
             if (!container) return; 
             const rect = container.getBoundingClientRect();
-            
             const relativeMouseX = mouseX - rect.left;
             const relativeMouseY = mouseY - rect.top;
 
             bubbleElements.forEach((bubble, i) => {
-                // 1. ATTRACTION (Liquid Feel)
                 const targetX = relativeMouseX + bubble.offsetX;
                 const targetY = relativeMouseY + bubble.offsetY;
                 const dx = targetX - bubble.x;
                 const dy = targetY - bubble.y;
-
                 bubble.vx += dx * 0.002; 
                 bubble.vy += dy * 0.002;
 
-                // 2. REPULSION (Anti-Collision)
                 bubbleElements.forEach((otherBubble, j) => {
                     if (i === j) return; 
-
                     const diffX = bubble.x - otherBubble.x;
                     const diffY = bubble.y - otherBubble.y;
                     const distance = Math.sqrt(diffX*diffX + diffY*diffY);
-                    const minDistance = 140; 
-
-                    if (distance < minDistance) {
-                        const force = (minDistance - distance) * 0.05; 
+                    if (distance < 140) {
+                        const force = (140 - distance) * 0.05; 
                         const angle = Math.atan2(diffY, diffX);
                         bubble.vx += Math.cos(angle) * force;
                         bubble.vy += Math.sin(angle) * force;
                     }
                 });
 
-                // 3. WANDERING & FRICTION
                 bubble.vx += (Math.random() - 0.5) * 0.1;
                 bubble.vy += (Math.random() - 0.5) * 0.1;
-                bubble.vx *= 0.94; 
-                bubble.vy *= 0.94;
+                bubble.vx *= 0.94; bubble.vy *= 0.94;
+                bubble.x += bubble.vx; bubble.y += bubble.vy;
 
-                // Position Update
-                bubble.x += bubble.vx;
-                bubble.y += bubble.vy;
-
-                // Boundaries
                 if (bubble.x < 0) { bubble.x = 0; bubble.vx *= -1; }
                 if (bubble.x > rect.width - 130) { bubble.x = rect.width - 130; bubble.vx *= -1; }
                 if (bubble.y < 0) { bubble.y = 0; bubble.vy *= -1; }
@@ -568,12 +638,9 @@
 
                 bubble.el.style.transform = `translate(${bubble.x}px, ${bubble.y}px)`;
             });
-
             requestAnimationFrame(animateBubbles);
         }
 
-
-        // 7. GIFT
         function bukaKado() {
             var duration = 3 * 1000;
             var end = Date.now() + duration;
@@ -588,4 +655,3 @@
     </script>
 </body>
 </html>
-
