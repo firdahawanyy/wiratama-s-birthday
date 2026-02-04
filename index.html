@@ -17,7 +17,7 @@
             --silk-transition: all 1.2s cubic-bezier(0.19, 1, 0.22, 1);
         }
 
-        /* 1. SMOOTH SCROLL FIX */
+        /* SMOOTH SCROLL FIX */
         html { scroll-behavior: smooth; }
 
         * { box-sizing: border-box; cursor: none; }
@@ -120,6 +120,7 @@
         .archive-meta {
             position: absolute; bottom: 30px; right: 30px;
             font-family: 'Courier Prime', monospace; font-size: 0.6rem; color: #444; letter-spacing: 1px;
+            text-align: right;
         }
 
         /* --- SURAT (ATMOSPHERE) --- */
@@ -154,7 +155,7 @@
         }
         .show-paper { opacity: 1; transform: translateY(0); }
 
-        /* --- MAIN CONTENT & TRANSITION FIX --- */
+        /* --- MAIN CONTENT --- */
         #echo-container {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             z-index: 4500; pointer-events: none; display: none;
@@ -282,18 +283,23 @@
             RESTRICTED AREA
         </h2>
         <h1 style="margin: 25px 0 10px 0;">The Archive.</h1>
-        <p style="margin: 0 0 30px 0; font-style: italic; font-size: 0.8rem; color: #666;">"Only one heart has the key."</p>
+        
+        <p style="margin: 0 0 30px 0; font-style: italic; font-size: 0.8rem; color: #666;">"Nur für ein Herz."</p>
 
         <div id="login-form-container" style="display: flex; flex-direction: column; align-items: center; transition: 1s;">
             <input type="password" id="passInput" class="login-input" placeholder="CODE">
-            <p style="margin-top: 15px; font-size: 0.7rem; color: #444;">Hint: Tanggal di mana semesta mempertemukan kita 🌙</p>
+            
+            <p style="margin-top: 15px; font-size: 0.7rem; color: #444;">Hint: The year our universe brought us together.</p>
+            
             <button class="login-btn hover-text-swap" data-hover="Ready to relive memories?" onclick="checkPass()">ENTER ARCHIVE</button>
-            <p id="errorMsg" style="color: #8D6E63; display: none; margin-top: 25px; font-size: 0.8rem; font-style: italic;">Hmm… coba ingat lagi momen penting kita 🤍</p>
+            
+            <p id="errorMsg" style="color: #8D6E63; display: none; margin-top: 25px; font-size: 0.8rem; font-style: italic;">Not quite. Think of a moment that changed everything.</p>
         </div>
 
-        <div id="welcome-text">Welcome back, my favorite person.</div>
+        <div id="welcome-text">Willkommen, Schatz &lt;3</div>
         <div id="access-msg">ACCESS GRANTED</div>
-        <div class="archive-meta">ARCHIVE CREATED: 2026.02.14<br>STATUS: LOCKED</div>
+        
+        <div class="archive-meta">Archiv seit · 2024<br>Status: geschützt</div>
     </div>
 
     <div id="echo-container">
@@ -407,7 +413,7 @@
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
     <script>
         const PASS = "2024";
-        // SURAT UPDATED
+        // SURAT VERSI 23.0
         const surat = "Happy Birthday, Wilaa!!\n\nWeird how this makes sense. I’m really proud of the life you’re building and the effort you still give us, even when you’re tired. I notice that.\n\nI just want this year to feel lighter for you — more real happiness, a calmer mind, and the wins you’ve been working for.\n\nAlso… if it wasn’t for you, I probably wouldn’t know how to make this website... and you wouldn’t be reading this right now, so yeah, look what you did.\n\nIch Liebe Dich.\n\n— Pida 🤍";
         
         const jokes = ["Si Wacana", "Besok Diet", "Terserah", "5 Menit Lagi", "Ganteng Doang", "Macet", "Sekali Lagi", "Hahahaha", "Sabar", "Otw (Kasur)"];
