@@ -172,7 +172,7 @@
             justify-content: center; align-items: center; text-align: center; position: relative;
         }
 
-        /* HERO */
+        /* HERO - REVISED */
         .hero {
             background: linear-gradient(to bottom, rgba(0,0,0,0.4) 0%, rgba(5,5,5,0) 50%, #050505 98%), url('foto.jpg');
             background-size: cover; background-position: center; background-attachment: fixed;
@@ -186,7 +186,7 @@
         }
         .hero-btn:hover { background: white; color: black; border-color: white; }
 
-        /* TIMELINE */
+        /* TIMELINE - REVISED FOR LONGER TEXT */
         #timeline {
             background-color: var(--bg-black);
             padding-top: 120px;
@@ -199,22 +199,43 @@
         .right { left: 50%; text-align: left; }
         
         .timeline-content { 
-            padding: 25px 35px; 
+            padding: 30px 40px; /* Sedikit diperbesar paddingnya */
             background: rgba(20, 20, 20, 0.6);
             border: 1px solid #1a1a1a;
             backdrop-filter: blur(5px);
             transition: var(--silk-transition); 
             border-radius: 4px;
         }
+        .timeline-content h3 { font-size: 1.2rem; margin-bottom: 15px; color: var(--accent-gold); }
+        .timeline-content p { font-size: 0.85rem; line-height: 1.8; color: #ccc; }
+        
         .timeline-content:hover { 
             border-color: #444; 
             transform: scale(1.02); 
             background: rgba(30, 30, 30, 0.8);
         }
 
-        .gallery-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 30px; }
-        .polaroid { background: white; padding: 10px 10px 40px 10px; width: 200px; transform: rotate(-3deg); transition: 0.5s; filter: grayscale(100%); }
-        .polaroid img { width: 100%; height: 220px; object-fit: cover; }
+        /* POLAROID REVISED */
+        .gallery-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 40px; }
+        .polaroid { 
+            background: white; 
+            padding: 10px 10px 15px 10px; /* Padding bawah disesuaikan */
+            width: 220px; /* Sedikit lebih lebar */
+            transform: rotate(-3deg); transition: 0.5s; filter: grayscale(100%); 
+        }
+        .polaroid img { width: 100%; height: 220px; object-fit: cover; border: 1px solid #eee; }
+        
+        /* Caption Styles */
+        .polaroid-caption {
+            color: #333;
+            font-family: 'Courier Prime', monospace;
+            font-size: 0.6rem;
+            margin-top: 15px;
+            text-align: center;
+            letter-spacing: 0px;
+            line-height: 1.4;
+        }
+
         .polaroid:hover { transform: scale(1.1) rotate(0deg); filter: grayscale(0%); z-index: 10; box-shadow: 0 0 30px rgba(255,255,255,0.2); }
         
         .music-layout { display: flex; flex-wrap: wrap; gap: 50px; align-items: center; justify-content: center; width: 100%; max-width: 900px; }
@@ -283,22 +304,17 @@
             RESTRICTED AREA
         </h2>
         <h1 style="margin: 25px 0 10px 0;">The Archive.</h1>
-        
         <p style="margin: 0 0 30px 0; font-style: italic; font-size: 0.8rem; color: #666;">"Nur für ein Herz."</p>
 
         <div id="login-form-container" style="display: flex; flex-direction: column; align-items: center; transition: 1s;">
             <input type="password" id="passInput" class="login-input" placeholder="CODE">
-            
             <p style="margin-top: 15px; font-size: 0.7rem; color: #444;">Hint: The year our universe brought us together.</p>
-            
             <button class="login-btn hover-text-swap" data-hover="Ready to relive memories?" onclick="checkPass()">ENTER ARCHIVE</button>
-            
             <p id="errorMsg" style="color: #8D6E63; display: none; margin-top: 25px; font-size: 0.8rem; font-style: italic;">Not quite. Think of a moment that changed everything.</p>
         </div>
 
-        <div id="welcome-text">Willkommen, Schatz &lt;3</div>
+        <div id="welcome-text">Willkommen, Schatz <3</div>
         <div id="access-msg">ACCESS GRANTED</div>
-        
         <div class="archive-meta">Archiv seit · 2024<br>Status: geschützt</div>
     </div>
 
@@ -328,41 +344,68 @@
 
     <div id="main-content">
         <section class="hero">
-            <h1>Happy Birthday,<br>My Soul.</h1>
-            <p style="margin-top: 20px;">Welcome to your gallery.</p>
+            <h1>Another Year of You.</h1>
+            <p style="margin-top: 20px;">And somehow, the world got better again.</p>
             <a href="#timeline" class="hero-btn">Scroll Down</a>
         </section>
 
         <section id="timeline">
             <h2 style="margin-bottom: 50px;">The Timeline</h2>
             <div class="timeline">
+                
                 <div class="timeline-container left">
-                    <div class="timeline-content hover-cursor-grow" onclick="openModal('t1.jpg', 'The First Encounter')">
-                        <h3>Chapter I.</h3>
-                        <p>Where it all started. Click to view.</p>
+                    <div class="timeline-content hover-cursor-grow" onclick="openModal('t1.jpg', 'Chapter I: The Beginning')">
+                        <h3>CHAPTER I — Didn’t See This Coming</h3>
+                        <p>I honestly never thought we’d end up like this.<br><br>
+                        No expectations. No “what ifs.”<br><br>
+                        Just two people, living their own lives —<br>
+                        until somehow, we weren’t anymore.</p>
                     </div>
                 </div>
+
                 <div class="timeline-container right">
-                    <div class="timeline-content hover-cursor-grow" onclick="openModal('t2.jpg', 'First Date Memories')">
-                        <h3>Chapter II.</h3>
-                        <p>The day I knew you were the one.</p>
+                    <div class="timeline-content hover-cursor-grow" onclick="openModal('t2.jpg', 'Chapter II: The Shift')">
+                        <h3>CHAPTER II — When You Started to Matter</h3>
+                        <p>Somewhere between rides, live reports, and long days at OLIM UI 2024,<br>
+                        I realized something quietly shifted.<br><br>
+                        It wasn’t just the effort.<br>
+                        It was the way your presence made things easier.<br><br>
+                        That’s when you stopped being just someone —<br>
+                        and started being my person.</p>
                     </div>
                 </div>
+
                 <div class="timeline-container left">
-                    <div class="timeline-content hover-cursor-grow" onclick="openModal('t3.jpg', 'Unforgettable Chaos')">
-                        <h3>Chapter III.</h3>
-                        <p>Just us being us.</p>
+                    <div class="timeline-content hover-cursor-grow" onclick="openModal('t3.jpg', 'Chapter III: Choosing You')">
+                        <h3>CHAPTER III — Still Here, Still Choosing</h3>
+                        <p>I see how hard you work.<br>
+                        How you build your life on your own terms.<br>
+                        And I’m proud of you — truly.<br><br>
+                        I don’t just want moments with you.<br>
+                        I want growth, peace, and a kind of happiness that stays.<br><br>
+                        And if life gets heavy,<br>
+                        I hope we keep choosing each other — calmly, honestly, and together.</p>
                     </div>
                 </div>
+
             </div>
         </section>
 
         <section>
-            <h2>Captured Moments</h2>
+            <h2>Since We Became Us</h2>
             <div class="gallery-grid">
-                <div class="polaroid"><img src="foto.jpg" alt="1"></div>
-                <div class="polaroid"><img src="galeri1.jpg" alt="2"></div>
-                <div class="polaroid"><img src="galeri2.jpg" alt="3"></div>
+                <div class="polaroid">
+                    <img src="foto.jpg" alt="1">
+                    <p class="polaroid-caption">1. New, a little shy, but already special.</p>
+                </div>
+                <div class="polaroid">
+                    <img src="galeri1.jpg" alt="2">
+                    <p class="polaroid-caption">2. This is when comfort started to feel natural.</p>
+                </div>
+                <div class="polaroid">
+                    <img src="galeri2.jpg" alt="3">
+                    <p class="polaroid-caption">3. Still choosing you, every day.</p>
+                </div>
             </div>
         </section>
 
@@ -383,6 +426,7 @@
             <div class="music-layout">
                 <div class="polaroid" style="transform: rotate(-3deg); width: 220px;">
                     <img src="foto.jpg" alt="Music Cover">
+                    <p class="polaroid-caption">No skipping.</p>
                 </div>
                 <div class="spotify-box">
                     <p style="text-align: left; margin-bottom: 10px; color: #fff;">Currently Playing:</p>
