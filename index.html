@@ -172,7 +172,7 @@
             justify-content: center; align-items: center; text-align: center; position: relative;
         }
 
-        /* HERO - REVISED */
+        /* HERO */
         .hero {
             background: linear-gradient(to bottom, rgba(0,0,0,0.4) 0%, rgba(5,5,5,0) 50%, #050505 98%), url('foto.jpg');
             background-size: cover; background-position: center; background-attachment: fixed;
@@ -186,7 +186,7 @@
         }
         .hero-btn:hover { background: white; color: black; border-color: white; }
 
-        /* TIMELINE - REVISED FOR LONGER TEXT */
+        /* TIMELINE */
         #timeline {
             background-color: var(--bg-black);
             padding-top: 120px;
@@ -199,7 +199,7 @@
         .right { left: 50%; text-align: left; }
         
         .timeline-content { 
-            padding: 30px 40px; /* Sedikit diperbesar paddingnya */
+            padding: 30px 40px; 
             background: rgba(20, 20, 20, 0.6);
             border: 1px solid #1a1a1a;
             backdrop-filter: blur(5px);
@@ -215,17 +215,16 @@
             background: rgba(30, 30, 30, 0.8);
         }
 
-        /* POLAROID REVISED */
+        /* POLAROID */
         .gallery-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 40px; }
         .polaroid { 
             background: white; 
-            padding: 10px 10px 15px 10px; /* Padding bawah disesuaikan */
-            width: 220px; /* Sedikit lebih lebar */
+            padding: 10px 10px 15px 10px; 
+            width: 220px; 
             transform: rotate(-3deg); transition: 0.5s; filter: grayscale(100%); 
         }
         .polaroid img { width: 100%; height: 220px; object-fit: cover; border: 1px solid #eee; }
         
-        /* Caption Styles */
         .polaroid-caption {
             color: #333;
             font-family: 'Courier Prime', monospace;
@@ -241,12 +240,78 @@
         .music-layout { display: flex; flex-wrap: wrap; gap: 50px; align-items: center; justify-content: center; width: 100%; max-width: 900px; }
         .spotify-box { flex: 1; min-width: 300px; }
 
-        .why-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); gap: 40px; width: 100%; max-width: 800px; margin-top: 30px; }
-        .why-item { display: flex; flex-direction: column; align-items: center; transition: 0.5s; }
-        .why-img-frame { width: 90px; height: 90px; border-radius: 50%; overflow: hidden; border: 1px solid #333; padding: 4px; margin-bottom: 15px; transition: 0.5s; }
-        .why-img-frame img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; filter: grayscale(100%); }
-        .why-item:hover .why-img-frame { border-color: white; transform: scale(1.1); }
+        /* --- WHY YOU STYLES (UPDATED) --- */
+        .why-grid { 
+            display: flex; 
+            flex-wrap: wrap; 
+            justify-content: center; 
+            gap: 40px; 
+            width: 100%; 
+            max-width: 1000px; 
+            margin-top: 30px; 
+        }
+        
+        .why-item { 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            width: 160px; 
+        }
+
+        .why-img-frame { 
+            width: 150px; 
+            height: 150px; 
+            border-radius: 50%; 
+            overflow: hidden; 
+            border: 1px solid #333; 
+            padding: 4px; 
+            margin-bottom: 15px; 
+            transition: 0.5s; 
+            position: relative; 
+        }
+
+        .why-img-frame img { 
+            width: 100%; 
+            height: 100%; 
+            border-radius: 50%; 
+            object-fit: cover; 
+            filter: grayscale(100%); 
+            transition: 0.5s;
+        }
+
+        /* OVERLAY CAPTION */
+        .why-overlay {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.85); 
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 15px;
+            opacity: 0; 
+            transition: opacity 0.4s ease-in-out;
+            z-index: 5;
+        }
+
+        .why-overlay p {
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.6rem; 
+            color: #fff;
+            margin: 0;
+            line-height: 1.3;
+        }
+
+        .why-text {
+            font-family: 'Playfair Display', serif;
+            font-size: 0.9rem;
+            color: var(--accent-gold);
+            font-weight: 600;
+        }
+
+        .why-item:hover .why-img-frame { border-color: white; transform: scale(1.05); }
         .why-item:hover img { filter: grayscale(0%); }
+        .why-img-frame:hover .why-overlay { opacity: 1; }
 
         /* BUBBLE GLOSSY */
         .jokes-section { overflow: hidden; position: relative; }
@@ -410,14 +475,69 @@
         </section>
 
         <section>
-            <h2>Why You?</h2>
+            <h2 style="margin-bottom: 40px;">Why You?</h2>
             <div class="why-grid">
-                <div class="why-item"><div class="why-img-frame"><img src="why1.jpg"></div><div class="why-text">Eyes</div></div>
-                <div class="why-item"><div class="why-img-frame"><img src="why2.jpg"></div><div class="why-text">Mind</div></div>
-                <div class="why-item"><div class="why-img-frame"><img src="why3.jpg"></div><div class="why-text">Smile</div></div>
-                <div class="why-item"><div class="why-img-frame"><img src="why4.jpg"></div><div class="why-text">Soul</div></div>
-                <div class="why-item"><div class="why-img-frame"><img src="why5.jpg"></div><div class="why-text">Laugh</div></div>
-                <div class="why-item"><div class="why-img-frame"><img src="why6.jpg"></div><div class="why-text">Heart</div></div>
+                
+                <div class="why-item">
+                    <div class="why-img-frame">
+                        <img src="why1.jpg" alt="Initiative">
+                        <div class="why-overlay">
+                            <p>You don’t just say you care — you show up, every time.</p>
+                        </div>
+                    </div>
+                    <div class="why-text">🤍 Your Initiative</div>
+                </div>
+
+                <div class="why-item">
+                    <div class="why-img-frame">
+                        <img src="why2.jpg" alt="Handling">
+                        <div class="why-overlay">
+                            <p>You ask what’s wrong and help me find my spark again, even when you’re tired.</p>
+                        </div>
+                    </div>
+                    <div class="why-text">🧠 The Way You Handle Me</div>
+                </div>
+
+                <div class="why-item">
+                    <div class="why-img-frame">
+                        <img src="why3.jpg" alt="Soft Side">
+                        <div class="why-overlay">
+                            <p>Baby talk mode on, and suddenly satay smoke becomes your mortal enemy.</p>
+                        </div>
+                    </div>
+                    <div class="why-text">🍼 Your Soft Side</div>
+                </div>
+
+                <div class="why-item">
+                    <div class="why-img-frame">
+                        <img src="why4.jpg" alt="Strength">
+                        <div class="why-overlay">
+                            <p>You built your life on your own, but never let it make your heart hard.</p>
+                        </div>
+                    </div>
+                    <div class="why-text">🌙 Your Strength</div>
+                </div>
+
+                <div class="why-item">
+                    <div class="why-img-frame">
+                        <img src="why5.jpg" alt="Honesty">
+                        <div class="why-overlay">
+                            <p>You tell me when you’re exhausted, stressed, or not okay — and I love that you trust me with that.</p>
+                        </div>
+                    </div>
+                    <div class="why-text">😮‍💨 Your Honesty</div>
+                </div>
+
+                <div class="why-item">
+                    <div class="why-img-frame">
+                        <img src="why6.jpg" alt="Plot Twist">
+                        <div class="why-overlay">
+                            <p>From “ich liebe dich” jokes, to “just friends,” to losing each other, to choosing each other — for real.</p>
+                        </div>
+                    </div>
+                    <div class="why-text">🎢 Our Plot Twist</div>
+                </div>
+
             </div>
         </section>
 
